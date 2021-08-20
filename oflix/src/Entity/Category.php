@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +33,16 @@ class Category
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=TvShow::class, mappedBy="categories")
+     */
+    private $tvShows;
+
+    public function __construct()
+    {
+        $this->tvShows = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -69,6 +81,33 @@ class Category
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TvShow[]
+     */
+    public function getTvShows(): Collection
+    {
+        return $this->tvShows;
+    }
+
+    public function addTvShow(TvShow $tvShow): self
+    {
+        if (!$this->tvShows->contains($tvShow)) {
+            $this->tvShows[] = $tvShow;
+            $tvShow->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTvShow(TvShow $tvShow): self
+    {
+        if ($this->tvShows->removeElement($tvShow)) {
+            $tvShow->removeCategory($this);
+        }
 
         return $this;
     }
