@@ -5,29 +5,41 @@
 {% endblock %}
 
 {% block body %}
-{% dump(tvshow)%}
-<h1>{{ tvshow.title }}</h1>
-<img src="{{ tvshow.image }}" alt="">
 
-    <h2>Synopsis</h2>
-        <p>{{ tvshow.synopsis }}</p>
-    {# <p>{{ tvshow.nb_likes }}</p>
-    <p>{{ tvshow.published_at }}</p> #}
+<main>
 
-    <h2>Saisons</h2>
-    {% for season in tvshow.seasons %}
-        <li>{{ season.season_number }}</li>
-    {% endfor %}
+        <section class="py-5 text-center container">
+            <div class="row py-lg-5">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <h1 class="fw-light">{{ tvshow.title }}</h1>
+                    <img src="{{ tvshow.image }}" alt="" height="400">
+                    <p class="lead text-muted">
+                        {% for season in tvshow.seasons %}
+                        <a href="#"><span class="badge bg-secondary">Saison {{ season.season_number }}</span></a>
+                        {% endfor %}
+                    </p>
+                    <p class="lead text-muted">
+                        Avec : 
+                        {% for character in tvshow.characters %}
+                            <a href="#">{{ character.firstname }} {{ character.lastname }}</a>, 
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+        </section>
 
-    <h2>Personnages</h2>
-    {% for character in tvshow.characters %}
-        <li>{{ character.firstname }} {{ character.lastname }}</li>
-    {% endfor %}
+        <div class="py-5 bg-light">
+            <div class="container">
+                <p>
+                    {{ tvshow.synopsis }}
+                </p>
+            </div>
+        </div>
 
-    <h2>Catégories</h2>
-    {% for category in tvshow.categories %}
-        <li>{{ category.name }} </li>
-    {% endfor %}
+    </main>
+
+
+
 
 
 
