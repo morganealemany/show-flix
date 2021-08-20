@@ -1,0 +1,16 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Accueil - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1>Accueil Oflix</h1>
+
+        <h2> Les dernières séries ajoutées</h2>
+            <ul>
+            {% for tvShow in lastTvShows %}
+                <li>{{ tvShow.title }}</li>
+            {% endfor %}
+            </ul>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {{ tvshow.title }} - {{ parent()}}
+{% endblock %}
+
+{% block body %}
+{% dump(tvshow)%}
+<h1>{{ tvshow.title }}</h1>
+<img src="{{ tvshow.image }}" alt="">
+
+    <h2>Synopsis</h2>
+        <p>{{ tvshow.synopsis }}</p>
+    {# <p>{{ tvshow.nb_likes }}</p>
+    <p>{{ tvshow.published_at }}</p> #}
+
+    <h2>Saisons</h2>
+    {% for season in tvshow.seasons %}
+        <li>{{ season.season_number }}</li>
+    {% endfor %}
+
+    <h2>Personnages</h2>
+    {% for character in tvshow.characters %}
+        <li>{{ character.firstname }} {{ character.lastname }}</li>
+    {% endfor %}
+
+    <h2>Catégories</h2>
+    {% for category in tvshow.categories %}
+        <li>{{ category.name }} </li>
+    {% endfor %}
+
+
+
+{% endblock %}

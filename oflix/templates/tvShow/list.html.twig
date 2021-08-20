@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Liste des séries - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+<h1> Liste des séries</h1>
+
+<ul>
+{% for tvShow in list %}
+    <li>
+    {{ tvShow.title }}
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}
