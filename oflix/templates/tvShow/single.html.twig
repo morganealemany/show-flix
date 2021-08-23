@@ -11,11 +11,10 @@
         <section class="py-5 text-center container">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="fw-light">{{ tvshow.title }}</h1>
                     <img src="{{ tvshow.image }}" alt="" height="400">
                     <p class="lead text-muted">
                         {% for season in tvshow.seasons %}
-                        <a href="#"><span class="badge bg-secondary">Saison {{ season.season_number }}</span></a>
+                        <a href="#"><span class="badge bg-info">Saison {{ season.seasonNumber }}</span></a>
                         {% endfor %}
                     </p>
                     <p class="lead text-muted">
@@ -24,6 +23,13 @@
                             <a href="#">{{ character.firstname }} {{ character.lastname }}</a>, 
                         {% endfor %}
                     </p>
+                    <p class="lead text-muted">
+                    {% dump(tvshow.categories)%}
+                        {% for category in tvshow.categories %}
+                        <a href="#"><span class="badge bg-warning">{{ category.name }}</span></a>
+                        {% endfor %}
+                    </p>
+
                 </div>
             </div>
         </section>
