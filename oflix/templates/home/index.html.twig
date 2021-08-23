@@ -21,7 +21,6 @@
             </div>
         </section>
 
-
         {# ----------- Essai carousel BS ----------
         <div id="slide" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
@@ -57,7 +56,7 @@
                                 <p class="card-text">{{ tvshow.synopsis }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a href="{{path('singletvshow', {id: tvshow.id })}}" class="btn btn-sm btn-outline-secondary">Voir</a>
+                                        <a href="{{path('tvshow_show', {id: tvshow.id })}}" class="btn btn-sm btn-outline-secondary">Voir</a>
                                         <a href="tvshow_details.html" class="btn btn-sm btn-outline-secondary">Editer</a>
                                     </div>
                                     <small class="text-muted">
