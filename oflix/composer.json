@@ -12,7 +12,6 @@
         "doctrine/doctrine-bundle": "^2.4",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.9",
-        "fakerphp/faker": "^1.15",
         "phpdocumentor/reflection-docblock": "^5.2",
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/asset": "5.3.*",
@@ -42,7 +41,8 @@
         "symfony/web-link": "5.3.*",
         "symfony/yaml": "5.3.*",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "xylis/faker-cinema-providers": "^1.1"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",

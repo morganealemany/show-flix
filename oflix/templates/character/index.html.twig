@@ -5,11 +5,12 @@
 {% block body %}
 <main>
        
-    <h1 class="fw-light">Les personnages</h1>
-
-    {% for character in charactersList %}
-        <p>{{ character.firstname }} {{ character.lastname }}</p>    
-    {% endfor %}
+    <h1 class="fw-light">Personnages</h1>
+        <ul>
+        {% for character in charactersList %}
+            <li>{{ character.firstname }} {{ character.lastname }}</li>    
+        {% endfor %}
+        </ul>
 
 </main>
 {% endblock %}

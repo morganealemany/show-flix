@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\SeasonRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -53,6 +54,8 @@ class Season
     public function __construct()
     {
         $this->episodes = new ArrayCollection();
+        $this->publishedAt = new DateTimeImmutable();
+        $this->createdAt = new DateTimeImmutable();
     }
 
     public function getId(): ?int
