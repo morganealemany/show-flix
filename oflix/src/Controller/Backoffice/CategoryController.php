@@ -42,6 +42,7 @@ class CategoryController extends AbstractController
             'category' => $category,
         ]);
     }
+    
     /**
      * Permet de créer une nouvelle catégorie
      * 

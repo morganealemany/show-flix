@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<h1>Ajouter un personnage</h1>
+{{ form_start(formView) }}
+    {{ form_row(formView.firstname) }}
+    {{ form_row(formView.lastname) }}
+    {{ form_row(formView.age) }}
+    {{ form_row(formView.gender) }}
+    {{ form_row(formView.bio) }}
+    <button class="btn btn-primary">Valider</button>
+{{ form_end(formView) }}
+{% endblock %}

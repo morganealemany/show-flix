@@ -2,8 +2,11 @@
 
 namespace App\Controller\Backoffice;
 
+use App\Entity\Character;
 use App\Repository\CharacterRepository;
+use App\Form\CharacterType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -39,4 +42,48 @@ class CharacterController extends AbstractController
             'character' => $character,
         ]);
     }
+
+    /**
+     * Permet de créer un nouveau personnage
+     * 
+     * @Route("/add", name="add")
+     *
+     * @return void
+     */
+    public function add(Request $request) 
+    {
+        // 1) On instancie un objet vide 
+        $character = new Character();
+
+        // 2) On instancie le formtype et on le lie à notre instance $character vide
+        $form = $this->createForm(CharacterType::class, $character);
+
+        // 4) On récupére les données issues du formulaire et on les injecte dans l'objet $character
+        $form->handleRequest($request);
+
+        // 5) On vérifie qu'on est bien dans le cas de la soumission du formulaire
+        if ($form->isSubmitted()) 
+        {
+            // On créé le nouveau personnage
+            // en appelant le manager de doctrine
+            $em = $this->getDoctrine()->getManager();
+            // on fait un "commit" de notre nouveau personnage
+            $em->persist($character);
+
+            // puis on fait un "push" pour la sauvegarder en BDD
+            $em->flush();
+
+            // On ajoute un message flash pour l'UX
+            $this->addFlash('success', 'Le personnage ' . $character->getFirstname(). ' ' .$character->getLastname() .' a bien été créée');
+
+            // On redirige la page vers l'index des personnages
+            return $this->redirectToRoute('backoffice_character_index');
+        }
+
+        // 3) On retourne le formulaire pour qu'il puisse s'afficher dans la vue
+        return $this->render('backoffice/character/add.html.twig', [
+            'formView' => $form->createView(),
+        ]);
+    }
 }
+
