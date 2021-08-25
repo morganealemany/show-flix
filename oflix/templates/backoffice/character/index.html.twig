@@ -6,9 +6,11 @@
 <main>
        
     <h1 class="fw-light">Personnages</h1>
+        <a href="{{ path('backoffice_character_add')}}">Ajouter un nouveau personnage</a>
+
         <ul>
         {% for character in characters %}
-            <li>{{ character.firstname }} {{ character.lastname }}</li>    
+            <li><a href="{{ path('backoffice_character_show', {id: character.id })}}">{{ character.firstname }} {{ character.lastname }}</a></li>    
         {% endfor %}
         </ul>
 

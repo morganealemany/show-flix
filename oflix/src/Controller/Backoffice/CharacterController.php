@@ -62,7 +62,7 @@ class CharacterController extends AbstractController
         $form->handleRequest($request);
 
         // 5) On vérifie qu'on est bien dans le cas de la soumission du formulaire
-        if ($form->isSubmitted()) 
+        if ($form->isSubmitted() && $form->isValid()) 
         {
             // On créé le nouveau personnage
             // en appelant le manager de doctrine

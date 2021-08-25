@@ -2,7 +2,7 @@
 
 {% block body %}
 <h1>Ajouter un personnage</h1>
-{{ form_start(formView) }}
+{{ form_start(formView, {'attr': {'novalidate': 'novalidate'}}) }}
     {{ form_row(formView.firstname) }}
     {{ form_row(formView.lastname) }}
     {{ form_row(formView.age) }}

@@ -42,7 +42,7 @@ class CategoryController extends AbstractController
             'category' => $category,
         ]);
     }
-    
+
     /**
      * Permet de créer une nouvelle catégorie
      * 
@@ -62,7 +62,7 @@ class CategoryController extends AbstractController
         $form->handleRequest($request);
 
         // 5) On vérifie qu'on est bien dans le cas de la soumission du formulaire
-        if ($form->isSubmitted()) 
+        if ($form->isSubmitted() && $form->isValid()) 
         {
             // On créé la nouvelle catégorie
             // en appelant le manager de doctrine
