@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<h1>{{ character.firstname }} {{ character.lastname}}</h1>
+    <h3>Age</h3>
+        <p>{{ character.age }}</p>
+    <h3>Genre</h3>
+        <p>{{ character.gender }}</p>
+    <h3>Biographie</h3>
+        <p>{{ character.bio }}</p>
+{% endblock %}

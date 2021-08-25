@@ -52,6 +52,8 @@ class AppFixtures extends Fixture
             $character->setFirstname($fullNameArray[0]);
             $character->setLastname($fullNameArray[1] ?? 'Doe' .$i);
             $character->setGender($gender == 'male' ? 'Homme' : 'Femme');
+            $character->setBio('Aliquam porttitor nisl at ante mattis tempus. Fusce sed enim tincidunt, elementum odio ac, facilisis purus. Sed gravida pulvinar quam, at bibendum purus aliquam et. Phasellus eu felis ipsum. Aenean vitae aliquam metus. Nam placerat bibendum lectus eget ultricies. Etiam non dapibus ante. Mauris eget massa eget nulla facilisis varius. Vestibulum hendrerit neque eget mi pretium tincidunt. Sed non feugiat lorem.');
+            $character->setAge(mt_rand(10, 90));
 
             // On met le personnage en liste d'attente
             $manager->persist($character);
