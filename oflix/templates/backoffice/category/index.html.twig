@@ -4,9 +4,10 @@
 
 {% block body %}
 
+<main style="margin:100px">
 <h1>Liste des catégories</h1>
 
-    <a class="btn btn-primary" href="{{ path('backoffice_category_add')}}">Ajouter une catégorie</a>
+    <p><a class="btn btn-primary" href="{{ path('backoffice_category_add')}}">Ajouter une catégorie</a></p>
     <table class="table">
         <thead>
             <tr>
@@ -36,6 +37,6 @@
         {% endfor %}
         </tbody>
     </table>
-
+</main>
 
 {% endblock %}

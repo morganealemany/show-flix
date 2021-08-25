@@ -3,6 +3,8 @@
 {% block title %}TvShow index{% endblock %}
 
 {% block body %}
+
+<main style="margin:100px">
     <h1>Liste des séries</h1>
 
     <a class="btn btn-primary" href="{{ path('backoffice_tv_show_new') }}">Ajouter une série</a>
@@ -45,5 +47,5 @@
         {% endfor %}
         </tbody>
     </table>
-
+</main>
 {% endblock %}

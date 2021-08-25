@@ -3,6 +3,8 @@
 {% block title %}Editer TvShow{% endblock %}
 
 {% block body %}
+
+<main style="margin:100px">
     <h1>Editer TvShow</h1>
 
     <p>{{ include('backoffice/tv_show/_form.html.twig', {'button_label': 'Valider'}) }}</p>
@@ -10,5 +12,5 @@
     <p>{{ include('backoffice/tv_show/_delete_form.html.twig') }}</p>
 
     <p><a class="btn btn-primary" href="{{ path('backoffice_tv_show_index') }}">Revenir à la liste</a></p>
-
+</main>
 {% endblock %}

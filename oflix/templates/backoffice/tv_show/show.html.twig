@@ -3,6 +3,7 @@
 {% block title %}TvShow{% endblock %}
 
 {% block body %}
+<main style="margin:100px">
     <h1>TvShow</h1>
 
     <table class="table">
@@ -48,5 +49,5 @@
     <p>{{ include('backoffice/tv_show/_delete_form.html.twig') }}</p>
 
     <p><a class="btn btn-primary" href="{{ path('backoffice_tv_show_index') }}">Revenir à la liste</a></p>
-
+</main>
 {% endblock %}

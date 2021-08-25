@@ -4,9 +4,10 @@
 
 {% block body %}
 
+<main style="margin:100px">
 <h1>Liste des personnages</h1>
 
-    <a class="btn btn-primary" href="{{ path('backoffice_tv_show_new') }}">Ajouter un personnage</a>
+    <a class="btn btn-primary" href="{{ path('backoffice_character_add') }}">Ajouter un personnage</a>
     <table class="table">
         <thead>
             <tr>
@@ -46,5 +47,5 @@
         {% endfor %}
         </tbody>
     </table>
-
+</main>
 {% endblock %}

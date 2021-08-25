@@ -1,7 +1,10 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
+
+<main style="margin:100px">
 <h1>Editer le personnage {{ character.firstname }} {{ character.lastname }}</h1>
+
 {{ form_start(formView) }}
     {{ form_row(formView.firstname) }}
     {{ form_row(formView.lastname) }}
@@ -10,8 +13,9 @@
     {{ form_row(formView.bio) }}
     <p><button class="btn btn-success">Valider</button></p>
 {{ form_end(formView) }}
-<p><a class="btn btn-danger" href="{{ path('backoffice_character_delete', {id: character.id}) }}">Supprimer</a></p>
 
-<p><a class="btn btn-primary" href="{{ path('backoffice_character_index') }}">Revenir à la liste</a></p>
+    <p><a class="btn btn-danger" href="{{ path('backoffice_character_delete', {id: character.id}) }}">Supprimer</a></p>
 
+    <p><a class="btn btn-primary" href="{{ path('backoffice_character_index') }}">Revenir à la liste</a></p>
+</main>
 {% endblock %}
