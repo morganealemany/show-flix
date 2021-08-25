@@ -26,24 +26,6 @@ class CategoryController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show", requirements={"id": "\d+"})
-     *
-     * @param int $id
-     * @return Response
-     */
-    public function show(int $id, CategoryRepository $repositoryCategory): Response
-    {
-        $category = $repositoryCategory->find($id);
-
-        if (!$category) {
-            throw $this->createNotFoundException("La catégorie dont l'id est $id n'existe pas");
-        }
-        return $this->render('backoffice/category/show.html.twig', [
-            'category' => $category,
-        ]);
-    }
-
-    /**
      * Permet de créer une nouvelle catégorie
      * 
      * @Route("/add", name="add")

@@ -1,67 +1,71 @@
 <?php
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\Character;
+use App\Entity\Episode;
 use App\Entity\Season;
 use App\Entity\TvShow;
+use App\Repository\TvShowRepository;
 use DateTimeImmutable;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Persistence\ObjectManager;
-use Faker;
+use Doctrine\Persistence\ObjectManager; 
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        // Création de l'instance Faker Generator
-        $faker = Faker\Factory::create();
+        // $tvShowRepository = new TvShowRepository()->findAll();
+        $faker = \Faker\Factory::create();
+        $faker->addProvider(new \Xylis\FakerCinema\Provider\Movie($faker));
         $faker->addProvider(new \Xylis\FakerCinema\Provider\Character($faker));
         $faker->addProvider(new \Xylis\FakerCinema\Provider\TvShow($faker));
+      
+        for ($categoryId = 0; $categoryId < 4; $categoryId++) {
+            $category = new Category();
+            $category->setname($faker->movieGenre);
+            $manager->persist($category);
 
+            for ($tvShowId = 0; $tvShowId < mt_rand(2, 4); $tvShowId++) {
+                $tvShow = new TvShow();
+                $tvShow->setTitle($faker->tvShow);
+                $tvShow->setSynopsis($faker->overview);
+                $tvShow->setPublishedAt( new DateTimeImmutable());
+                $tvShow->addCategory($category);
+                $manager->persist($tvShow);
 
-        // create 20 tvshows
-        for ($i= 0; $i < 20 ; $i++) {
-            $tvShow = new TvShow();
-            $tvShow->setTitle($faker->tvShow);
-            $tvShow->setSynopsis($faker->overview);
+                for ($sesonId = 1; $sesonId < mt_rand(3, 8); $sesonId++) {
+                    $season = new Season();
+                    $season->setSeasonNumber($sesonId);
+                    $season->setTvShow($tvShow);
+                    $season->setCreatedAt(new DateTimeImmutable());
+                    $manager->persist($season);
 
-            // Création de nouvelles saisons associées à tvShow
-            $seasonOne = new Season();
-            $seasonOne->setSeasonNumber(1);
-            $tvShow->addSeason($seasonOne);
+                    for ($episodeId = 1; $episodeId < mt_rand(7, 15); $episodeId++) {
+                        $episode = new Episode();
+                        $episode->setEpisodeNumber($episodeId);
+                        $episode->setTitle($faker->movie);
+                        $episode->setSeason($season);
+                        $episode->setPublishedAt(new DateTimeImmutable());
+                        $episode->setCreatedAt(new DateTimeImmutable());
+                        $manager->persist($episode);
+                    }
+                }
 
-            $seasonTwo = new Season();
-            $seasonTwo->setSeasonNumber(2);
-            $tvShow->addSeason($seasonTwo);
+                for ($characterId = 0; $characterId < mt_rand(8, 18); $characterId++) {
+                    $gender = mt_rand(0, 1) ? 'male' : 'female';
+                    $fullNameArray = explode(" ", $faker->character($gender));
+                    $character = new Character();
 
-            $seasonThree = new Season();
-            $seasonThree->setSeasonNumber(3);
-            $tvShow->addSeason($seasonThree);
-
-            $manager->persist($tvShow);
-            $manager->persist($seasonOne);
-            $manager->persist($seasonTwo);
-            $manager->persist($seasonThree);
+                    $character->setFirstname($fullNameArray[0]);
+                    $character->setLastname($fullNameArray[1]?? 'Doe');
+                    $character->setGender($gender == 'male' ? 'Homme' : 'Femme');
+                    $character->addTvShow($tvShow);
+                    $manager->persist($character);
+                }
+            }
         }
-
-        // create 20 characters! Bam!
-        for ($i = 0; $i < 20; $i++) {
-            $gender = mt_rand(0, 1) ? 'male' : 'female';
-            $fullNameArray = explode(" ", $faker->character($gender));
-            $character = new Character();
-            $character->setFirstname($fullNameArray[0]);
-            $character->setLastname($fullNameArray[1] ?? 'Doe' .$i);
-            $character->setGender($gender == 'male' ? 'Homme' : 'Femme');
-            $character->setBio('Aliquam porttitor nisl at ante mattis tempus. Fusce sed enim tincidunt, elementum odio ac, facilisis purus. Sed gravida pulvinar quam, at bibendum purus aliquam et. Phasellus eu felis ipsum. Aenean vitae aliquam metus. Nam placerat bibendum lectus eget ultricies. Etiam non dapibus ante. Mauris eget massa eget nulla facilisis varius. Vestibulum hendrerit neque eget mi pretium tincidunt. Sed non feugiat lorem.');
-            $character->setAge(mt_rand(10, 90));
-
-            // On met le personnage en liste d'attente
-            $manager->persist($character);
-        }
-
-        // On sauvegarde/créé les nouvelles infos en BDD
+        
         $manager->flush();
     }
-
 }
-
