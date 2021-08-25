@@ -89,7 +89,7 @@ class CategoryController extends AbstractController
     /**
      * Permet d'éditer une catégorie
      * 
-     * @Route("/{id}/edit", name="edit")
+     * @Route("/{id}/edit", name="edit", requirements= {"id": "\d+"})
      *
      * @param integer $id
      * 
@@ -121,7 +121,6 @@ class CategoryController extends AbstractController
             return $this->redirectToRoute('backoffice_category_show', [
                 'id' => $id,
             ]);
-        
         }
 
         // 3) On affiche le formulaire dans la vue
@@ -130,5 +129,30 @@ class CategoryController extends AbstractController
             'category' => $category,
         ]);
 
+    }
+
+    /**
+     * Permet la suppression d'une catégorie
+     * 
+     * @Route("/{id}/delete", name="delete", requirements= {"id": "\d+"})
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function delete(int $id, CategoryRepository $repositoryCategory)
+    {
+        // On récupére les infos de la catégorie dont l'id est passé en argument
+        $category = $repositoryCategory->find($id);
+        
+        // On fait appel au manager de doctrine pour gérer la suppression
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($category);
+        $em->flush();
+
+        // Message flash
+        $this->addFlash('success', 'La catégorie ' . $category->getName() . ' a bien été supprimée');
+
+        // Redirection vers la page index des catégories
+        return $this->redirectToRoute('backoffice_category_index');
     }
 }

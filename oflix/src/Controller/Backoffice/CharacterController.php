@@ -89,7 +89,7 @@ class CharacterController extends AbstractController
     /**
      * Permet d'éditer une catégorie
      * 
-     * @Route("/{id}/edit", name="edit")
+     * @Route("/{id}/edit", name="edit", requirements= {"id": "\d+"})
      *
      * @param integer $id
      * 
@@ -121,7 +121,6 @@ class CharacterController extends AbstractController
             return $this->redirectToRoute('backoffice_character_show', [
                 'id' => $id,
             ]);
-        
         }
 
         // 3) On affiche le formulaire dans la vue
@@ -130,6 +129,31 @@ class CharacterController extends AbstractController
             'character' => $character,
         ]);
 
+    }
+
+    /**
+     * Permet la suppression d'un personnage
+     * 
+     * @Route("/{id}/delete", name="delete", requirements= {"id": "\d+"})
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function delete(int $id, CharacterRepository $repositoryCharacter)
+    {
+        // On récupére les infos du personnage dont l'id est passé en argument
+        $character = $repositoryCharacter->find($id);
+        
+        // On fait appel au manager de doctrine pour gérer la suppression
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($character);
+        $em->flush();
+
+        // Message flash
+        $this->addFlash('success', 'Le personnage ' . $character->getFirstname() . ' ' . $character->getLastname() .' a bien été supprimée');
+
+        // Redirection vers la page index des personnages
+        return $this->redirectToRoute('backoffice_character_index');
     }
 }
 
