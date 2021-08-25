@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\CategoryRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -114,5 +115,11 @@ class Category
         }
 
         return $this;
+    }
+
+   
+    public function __toString()
+    {
+        return $this->name;
     }
 }

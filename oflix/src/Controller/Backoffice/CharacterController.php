@@ -107,8 +107,8 @@ class CharacterController extends AbstractController
         $form->handleRequest($request);
 
         // 5) On vérifie qu'on est bien dans le cas d'une soumission de formulaire
-        if ($form->isSubmitted()) {
-            // On met à jour la catégorie
+        if ($form->isSubmitted() && $form->isValid()) {
+            // On met à jour le personnage
             // en appelant le manager de doctrine
             $em = $this->getDoctrine()->getManager();
             // persist n'est pas nécessaire lors d'une MAJ

@@ -7,6 +7,8 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass=TvShowRepository::class)
@@ -22,11 +24,13 @@ class TvShow
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="Le titre doit être renseigné")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="Le synopsis doit être renseigné")
      */
     private $synopsis;
 
@@ -75,7 +79,7 @@ class TvShow
         $this->seasons = new ArrayCollection();
         $this->characters = new ArrayCollection();
         $this->categories = new ArrayCollection();
-        $this->publishedAt = new DateTimeImmutable();
+        $this->updateddAt = new DateTimeImmutable();
         $this->createdAt = new DateTimeImmutable();
 
     }

@@ -3,16 +3,39 @@
 {% block title %}Hello CategoryController!{% endblock %}
 
 {% block body %}
-<main>
-       
-    <h1 class="fw-light">Catégories</h1>
-    <a href="{{ path('backoffice_category_add')}}">Ajouter une nouvelle catégorie</a>
-    <section>
-        <ul>
+
+<h1>Liste des catégories</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Date de création</th>
+                <th>Dernière mise à jour</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
         {% for category in categories %}
-            <li><a href="{{ path('backoffice_category_show', {id: category.id})}}">{{ category.name }}</a></li>    
+            <tr>
+                <td>{{ category.id }}</td>
+                <td>{{ category.name }}</td>
+                <td>{{ category.createdAt ? category.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ category.updatedAt ? category.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('backoffice_category_edit', {'id': category.id}) }}">Editer</a>
+                    <a href="{{ path('backoffice_category_delete', {'id': category.id}) }}">Supprimer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
         {% endfor %}
-        </ul>
-    </section>
-</main>
+        </tbody>
+    </table>
+
+    <a href="{{ path('backoffice_category_add')}}">Create new</a>
+
 {% endblock %}

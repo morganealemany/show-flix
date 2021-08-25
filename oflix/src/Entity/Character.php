@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\CharacterRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -65,6 +66,7 @@ class Character
      */
     private $tvShows;
 
+  
     public function __construct()
     {
         $this->tvShows = new ArrayCollection();
@@ -186,5 +188,13 @@ class Character
         }
 
         return $this;
+    }
+
+    /**
+     * Si l'on tente de faire un echo sur l'objet Character, PHP retournera la valeur du prénom
+     */
+    public function __toString()
+    {
+        return $this->firstname;
     }
 }

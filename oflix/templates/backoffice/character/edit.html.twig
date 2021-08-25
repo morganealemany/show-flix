@@ -8,6 +8,10 @@
     {{ form_row(formView.age) }}
     {{ form_row(formView.gender) }}
     {{ form_row(formView.bio) }}
-    <button class="btn btn-primary">Valider</button>
+    <p><button class="btn btn-success">Valider</button></p>
 {{ form_end(formView) }}
+<p><a class="btn btn-danger" href="{{ path('backoffice_character_delete', {id: character.id}) }}">Supprimer</a></p>
+
+<p><a class="btn btn-primary" href="{{ path('backoffice_character_index') }}">Revenir à la liste</a></p>
+
 {% endblock %}

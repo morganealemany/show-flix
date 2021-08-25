@@ -118,7 +118,7 @@ class CategoryController extends AbstractController
             $this->addFlash('success', 'La catégorie a bien été mise à jour');
 
             // Redirection sur la page de la catégorie
-            return $this->redirectToRoute('backoffice_category_show', [
+            return $this->redirectToRoute('backoffice_category_index', [
                 'id' => $id,
             ]);
         }

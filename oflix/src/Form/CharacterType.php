@@ -4,10 +4,12 @@ namespace App\Form;
 
 use App\Entity\Character;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class CharacterType extends AbstractType
 {
@@ -44,6 +46,11 @@ class CharacterType extends AbstractType
                     'placeholder' => 'Renseigner l\'âge',
                 ]
             ])
+            // ->add('imageFile', FileType::class, [
+            //     'label' => 'Image',
+            //     'mapped' => false,
+            //     'required' => false,
+            // ])
             // ->add('createdAt')
             // ->add('updatedAt')
             // ->add('tvShows')
