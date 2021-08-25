@@ -5,6 +5,7 @@
 {% block body %}
     <h1>Liste des séries</h1>
 
+    <a class="btn btn-primary" href="{{ path('backoffice_tv_show_new') }}">Ajouter une série</a>
     <table class="table">
         <thead>
             <tr>
@@ -45,5 +46,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('backoffice_tv_show_new') }}">Create new</a>
 {% endblock %}

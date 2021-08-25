@@ -4,6 +4,9 @@
 <h1>Ajouter une catégorie</h1>
 {{ form_start(formView, {'attr': {'novalidate': 'novalidate'}}) }}
     {{ form_row(formView.name) }}
-    <button class="btn btn-primary">Valider</button>
+    <p><button class="btn btn-success">Valider</button></p>
 {{ form_end(formView) }}
+
+<p><a class="btn btn-primary" href="{{ path('backoffice_category_index') }}">Revenir à la liste</a></p>
+
 {% endblock %}
