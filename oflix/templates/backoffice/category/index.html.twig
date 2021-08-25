@@ -6,11 +6,13 @@
 <main>
        
     <h1 class="fw-light">Catégories</h1>
+    <a href="{{ path('backoffice_category_add')}}">Ajouter une nouvelle catégorie</a>
+    <section>
         <ul>
         {% for category in categories %}
             <li>{{ category.name }}</li>    
         {% endfor %}
         </ul>
-
+    </section>
 </main>
 {% endblock %}
