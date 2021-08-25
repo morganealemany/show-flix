@@ -85,4 +85,50 @@ class CategoryController extends AbstractController
             'formView' => $form->createView(),
         ]);
     }
+
+    /**
+     * Permet d'éditer une catégorie
+     * 
+     * @Route("/{id}/edit", name="edit")
+     *
+     * @param integer $id
+     * 
+     * @return void
+     */
+    public function edit(int $id, Request $request, CategoryRepository $repositoryCategory)
+    {
+        // 1) On récupére l'id de la catégorie à modifier
+        $category = $repositoryCategory->find($id);
+
+        // 2) On instancie le formtype et on lie l'instance $category à notre formulaire
+        $form = $this->createForm(CategoryType::class, $category);
+
+        // 4) On réceptionne les données issues du formulaire et on les injecte dans l'objet $category
+        $form->handleRequest($request);
+
+        // 5) On vérifie qu'on est bien dans le cas d'une soumission de formulaire
+        if ($form->isSubmitted()) {
+            // On met à jour la catégorie
+            // en appelant le manager de doctrine
+            $em = $this->getDoctrine()->getManager();
+            // persist n'est pas nécessaire lors d'une MAJ
+            $em->flush();
+        
+            // Message flash
+            $this->addFlash('success', 'La catégorie a bien été mise à jour');
+
+            // Redirection sur la page de la catégorie
+            return $this->redirectToRoute('backoffice_category_show', [
+                'id' => $id,
+            ]);
+        
+        }
+
+        // 3) On affiche le formulaire dans la vue
+        return $this->render('backoffice/category/edit.html.twig', [
+            'formView' => $form->createView(),
+            'category' => $category,
+        ]);
+
+    }
 }

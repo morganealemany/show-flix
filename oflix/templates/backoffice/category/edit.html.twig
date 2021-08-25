@@ -1,0 +1,9 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<h1>Editer la catégorie {{ category.name }}</h1>
+{{ form_start(formView) }}
+    {{ form_row(formView.name) }}
+    <button class="btn btn-primary">Valider</button>
+{{ form_end(formView) }}
+{% endblock %}

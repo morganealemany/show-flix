@@ -85,5 +85,51 @@ class CharacterController extends AbstractController
             'formView' => $form->createView(),
         ]);
     }
+
+    /**
+     * Permet d'éditer une catégorie
+     * 
+     * @Route("/{id}/edit", name="edit")
+     *
+     * @param integer $id
+     * 
+     * @return void
+     */
+    public function edit(int $id, Request $request, CharacterRepository $repositoryCharacter)
+    {
+        // 1) On récupére l'id de la catégorie à modifier
+        $character = $repositoryCharacter->find($id);
+
+        // 2) On instancie le formtype et on lie l'instance $character à notre formulaire
+        $form = $this->createForm(CharacterType::class, $character);
+
+        // 4) On réceptionne les données issues du formulaire et on les injecte dans l'objet $character
+        $form->handleRequest($request);
+
+        // 5) On vérifie qu'on est bien dans le cas d'une soumission de formulaire
+        if ($form->isSubmitted()) {
+            // On met à jour la catégorie
+            // en appelant le manager de doctrine
+            $em = $this->getDoctrine()->getManager();
+            // persist n'est pas nécessaire lors d'une MAJ
+            $em->flush();
+        
+            // Message flash
+            $this->addFlash('success', 'Le personnage a bien été mis à jour');
+
+            // Redirection sur la page du personnage
+            return $this->redirectToRoute('backoffice_character_show', [
+                'id' => $id,
+            ]);
+        
+        }
+
+        // 3) On affiche le formulaire dans la vue
+        return $this->render('backoffice/character/edit.html.twig', [
+            'formView' => $form->createView(),
+            'character' => $character,
+        ]);
+
+    }
 }
 
