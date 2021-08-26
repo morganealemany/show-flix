@@ -5,13 +5,14 @@ namespace App\Controller\Backoffice;
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use App\Form\CategoryType;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/backoffice/category", name="backoffice_category_")
+ * @Route("/backoffice/category", name="backoffice_category_", requirements={"id": "\d+"})
  */
 class CategoryController extends AbstractController
 {
@@ -24,6 +25,28 @@ class CategoryController extends AbstractController
     {
         return $this->render('backoffice/category/index.html.twig', [
             'categories' => $repositoryCategory->findAll(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="show")
+     *
+     * @param int $id
+     * @return Response
+     */
+    // public function show(int $id, CategoryRepository $categoryRepository)
+    // {
+    // Version 1 : On récupère la catégory en appellant directement le repository
+    //     $category = $categoryRepository->find($id);
+
+    //     dd($category);
+    // }
+    // Version 2 : Param converter ==> Conversion automatique de paramètres
+
+    public function show(Category $category): Response
+    {
+        return $this->render('backoffice/category/show.html.twig', [
+            'category' => $category,
         ]);
     }
 
@@ -73,16 +96,16 @@ class CategoryController extends AbstractController
     /**
      * Permet d'éditer une catégorie
      * 
-     * @Route("/{id}/edit", name="edit", requirements= {"id": "\d+"})
+     * @Route("/{id}/edit", name="edit")
      *
      * @param integer $id
      * 
      * @return void
      */
-    public function edit(int $id, Request $request, CategoryRepository $repositoryCategory)
+    public function edit(Request $request, Category $category)
     {
-        // 1) On récupére l'id de la catégorie à modifier
-        $category = $repositoryCategory->find($id);
+        // // 1) On récupére l'id de la catégorie à modifier
+        // $category = $repositoryCategory->find($id); --> plus nécessaire compte tenu de l'utilisation de la conversion automatique de paramètres (Category $category)
 
         // 2) On instancie le formtype et on lie l'instance $category à notre formulaire
         $form = $this->createForm(CategoryType::class, $category);
@@ -91,19 +114,20 @@ class CategoryController extends AbstractController
         $form->handleRequest($request);
 
         // 5) On vérifie qu'on est bien dans le cas d'une soumission de formulaire
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             // On met à jour la catégorie
+            $category->setUpdatedAt(new DateTimeImmutable());
             // en appelant le manager de doctrine
             $em = $this->getDoctrine()->getManager();
             // persist n'est pas nécessaire lors d'une MAJ
             $em->flush();
         
             // Message flash
-            $this->addFlash('success', 'La catégorie a bien été mise à jour');
+            $this->addFlash('success', 'La catégorie ' . $category->getName() . ' a bien été mise à jour');
 
             // Redirection sur la page de la catégorie
             return $this->redirectToRoute('backoffice_category_index', [
-                'id' => $id,
+                'id' => $category->getId(),
             ]);
         }
 
@@ -118,16 +142,13 @@ class CategoryController extends AbstractController
     /**
      * Permet la suppression d'une catégorie
      * 
-     * @Route("/{id}/delete", name="delete", requirements= {"id": "\d+"})
+     * @Route("/{id}/delete", name="delete")
      *
      * @param integer $id
      * @return void
      */
-    public function delete(int $id, CategoryRepository $repositoryCategory)
-    {
-        // On récupére les infos de la catégorie dont l'id est passé en argument
-        $category = $repositoryCategory->find($id);
-        
+    public function delete(Category $category)
+    {        
         // On fait appel au manager de doctrine pour gérer la suppression
         $em = $this->getDoctrine()->getManager();
         $em->remove($category);

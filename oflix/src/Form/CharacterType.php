@@ -46,11 +46,11 @@ class CharacterType extends AbstractType
                     'placeholder' => 'Renseigner l\'âge',
                 ]
             ])
-            // ->add('imageFile', FileType::class, [
-            //     'label' => 'Image',
-            //     'mapped' => false,
-            //     'required' => false,
-            // ])
+            ->add('imageFile', FileType::class, [
+                'label' => 'Image',
+                'mapped' => false,
+                'required' => false,
+            ])
             // ->add('createdAt')
             // ->add('updatedAt')
             // ->add('tvShows')

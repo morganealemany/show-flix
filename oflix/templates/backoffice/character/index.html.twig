@@ -4,7 +4,6 @@
 
 {% block content %}
 
-<main style="margin:100px">
 <h1>Liste des personnages</h1>
 
     <a class="btn btn-primary" href="{{ path('backoffice_character_add') }}">Ajouter un personnage</a>
@@ -31,12 +30,12 @@
                 <td>{{ character.gender }}</td>
                 <td>{{ character.age }}</td>
                 <td>{{ character.bio }}</td>
-                <td>{{ character.createdAt ? character.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ character.updatedAt ? character.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ character.createdAt ? character.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ character.updatedAt ? character.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('backoffice_character_show', {'id': character.id}) }}">Voir</a>
                     <a href="{{ path('backoffice_character_edit', {'id': character.id}) }}">Editer</a>
-                    <a href="{{ path('backoffice_character_delete', {'id': character.id}) }}">Supprimer</a>
+                    <a href="{{ path('backoffice_character_delete', {'id': character.id}) }}" onclick="return confirm('Êtes vous sûr de vouloir supprimer cet élément?');">Supprimer</a>
 
                 </td>
             </tr>
@@ -47,5 +46,4 @@
         {% endfor %}
         </tbody>
     </table>
-</main>
 {% endblock %}

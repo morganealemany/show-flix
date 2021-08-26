@@ -2,7 +2,6 @@
 
 {% block content %}
 
-<main style="margin:100px">
 <h1>{{ character.firstname }} {{ character.lastname}}</h1>
 
     <h3>Age</h3>
@@ -16,7 +15,7 @@
     <a class="btn btn-success" href="{{ path('backoffice_character_edit', {id: character.id})}}">Editer</a>
 </p>
 <p>
-    <a class="btn btn-danger" href="{{ path('backoffice_character_delete', {id: character.id})}}">Supprimer</a>
+    <a class="btn btn-danger" href="{{ path('backoffice_character_delete', {id: character.id})}}" onclick="return confirm('Êtes vous sûr de vouloir supprimer cet élément?');">Supprimer</a>
 </p>
 <p>
     <a class="btn btn-primary" href="{{ path('backoffice_character_index') }}">Retour à la liste</a>

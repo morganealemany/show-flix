@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/backoffice/character", name="backoffice_character_")
+ * @Route("/backoffice/character", name="backoffice_character_", requirements={"id": "\d+"})
  */
 class CharacterController extends AbstractController
 {
@@ -26,7 +26,7 @@ class CharacterController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show", requirements={"id": "\d+"})
+     * @Route("/{id}", name="show")
      *
      * @param int $id
      * @return Response
@@ -89,7 +89,7 @@ class CharacterController extends AbstractController
     /**
      * Permet d'éditer une catégorie
      * 
-     * @Route("/{id}/edit", name="edit", requirements= {"id": "\d+"})
+     * @Route("/{id}/edit", name="edit")
      *
      * @param integer $id
      * 
@@ -128,13 +128,12 @@ class CharacterController extends AbstractController
             'formView' => $form->createView(),
             'character' => $character,
         ]);
-
     }
 
     /**
      * Permet la suppression d'un personnage
      * 
-     * @Route("/{id}/delete", name="delete", requirements= {"id": "\d+"})
+     * @Route("/{id}/delete", name="delete")
      *
      * @param integer $id
      * @return void

@@ -73,6 +73,15 @@ class Character
         $this->createdAt = new DateTimeImmutable();
         $this->updatedAt = new DateTimeImmutable();
     }
+    
+     /**
+     * Si l'on tente de faire un echo sur l'objet Character, PHP retournera la valeur du prénom
+     */
+    public function __toString()
+    {
+        
+        return $this->firstname . ' ' . $this->lastname;
+    }
 
     public function getId(): ?int
     {
@@ -188,13 +197,5 @@ class Character
         }
 
         return $this;
-    }
-
-    /**
-     * Si l'on tente de faire un echo sur l'objet Character, PHP retournera la valeur du prénom
-     */
-    public function __toString()
-    {
-        return $this->firstname;
     }
 }

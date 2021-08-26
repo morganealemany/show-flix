@@ -4,11 +4,9 @@
 
 {% block content %}
 
-<main style="margin:100px">
     <h1>Ajouter une série</h1>
 
     <p>{{ include('backoffice/tv_show/_form.html.twig') }}</p>
 
     <p><a class="btn btn-primary" href="{{ path('backoffice_tv_show_index') }}">Revenir à la liste</a></p>
-</main>
 {% endblock %}

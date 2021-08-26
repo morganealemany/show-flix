@@ -15,7 +15,7 @@ class CategoryType extends AbstractType
             ->add('name', null, [
                 'label' => 'Nom de la catégorie',
                 'attr' => [
-                    'placeholder' => 'Renseigner le nom',
+                    'placeholder' => 'Saisir un nom de catégorie',
                 ]
             ])
             // ->add('createdAt')

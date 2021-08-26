@@ -4,7 +4,6 @@
 
 {% block content %}
 
-<main style="margin:100px">
     <h1>Liste des séries</h1>
 
     <a class="btn btn-primary" href="{{ path('backoffice_tv_show_new') }}">Ajouter une série</a>
@@ -30,9 +29,9 @@
                 <td>{{ tv_show.synopsis }}</td>
                 <td>{{ tv_show.image }}</td>
                 <td>{{ tv_show.nbLikes }}</td>
-                <td>{{ tv_show.publishedAt ? tv_show.publishedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ tv_show.createdAt ? tv_show.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ tv_show.updatedAt ? tv_show.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ tv_show.publishedAt ? tv_show.publishedAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ tv_show.createdAt ? tv_show.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ tv_show.updatedAt ? tv_show.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('backoffice_tv_show_show', {'id': tv_show.id}) }}">Voir</a>
                     <a href="{{ path('backoffice_tv_show_edit', {'id': tv_show.id}) }}">Editer</a>
@@ -47,5 +46,4 @@
         {% endfor %}
         </tbody>
     </table>
-</main>
 {% endblock %}
