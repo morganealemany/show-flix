@@ -16,6 +16,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     /**
+     * Affiche toutes les catégories depuis l'interface d'administration backoffice
+     * 
      * @Route("/", name="index")
      */
     public function index(CategoryRepository $repositoryCategory): Response
