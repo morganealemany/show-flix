@@ -5,6 +5,7 @@ namespace App\Controller\Backoffice;
 use App\Entity\TvShow;
 use App\Form\TvShowType;
 use App\Repository\TvShowRepository;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,6 +68,7 @@ class TvShowController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $tvShow->setUpdatedAt(( new DateTimeImmutable()));
             $this->getDoctrine()->getManager()->flush();
 
             // Message flash

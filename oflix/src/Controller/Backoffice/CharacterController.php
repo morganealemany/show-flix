@@ -5,6 +5,7 @@ namespace App\Controller\Backoffice;
 use App\Entity\Character;
 use App\Repository\CharacterRepository;
 use App\Form\CharacterType;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -109,6 +110,7 @@ class CharacterController extends AbstractController
         // 5) On vérifie qu'on est bien dans le cas d'une soumission de formulaire
         if ($form->isSubmitted() && $form->isValid()) {
             // On met à jour le personnage
+            $character->setUpdatedAt(new DateTimeImmutable());
             // en appelant le manager de doctrine
             $em = $this->getDoctrine()->getManager();
             // persist n'est pas nécessaire lors d'une MAJ
