@@ -27,10 +27,11 @@
                     </li>
                 </ul>
 
-                <ul>
+                <ul class="navbar-nav me-4 mb-md-0">
                 <li>
                     {% if app.user %}
-                        <p style="color: white" >{{ app.user.email }}</p>
+                        <p class="text-danger" >{{ app.user.email }} est connecté</p>
+                        {# <p style="color: green">connecté</p> #}
                     {% endif %}
 
                     {# {% if app.user.roles.contains("ROLE_ADMIN") %}
