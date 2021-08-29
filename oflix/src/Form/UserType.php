@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,7 +14,15 @@ class UserType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles')
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'User' => 'ROLE_USER',
+                    'Admin' => 'ROLE_ADMIN'
+                ],
+                'expanded' => false, // liste déroulante
+                'multiple' => true, // choix multiple
+                // https://www.developpez.net/forums/d1860599/php/bibliotheques-frameworks/symfony/formulaire-ne-s-affiche-error-array-to-string-conversion-sf4/
+            ])
             ->add('password')
         ;
     }
