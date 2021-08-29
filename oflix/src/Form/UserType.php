@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -23,7 +24,7 @@ class UserType extends AbstractType
                 'multiple' => true, // choix multiple
                 // https://www.developpez.net/forums/d1860599/php/bibliotheques-frameworks/symfony/formulaire-ne-s-affiche-error-array-to-string-conversion-sf4/
             ])
-            ->add('password')
+            ->add('password', PasswordType::class)
         ;
     }
 
