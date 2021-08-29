@@ -3,6 +3,11 @@
 {% block title %}Backoffice - {{ parent() }}{% endblock %}
 
 {% block body %}
+{% if app.user %}
+<h2>Bonjour {{app.user.email}}</h2>
+{% endif %}
+
+
 <main style="margin:100px">
     <div class="row">
     <div class="col-sm-4">
