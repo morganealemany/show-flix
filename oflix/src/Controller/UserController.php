@@ -37,6 +37,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             //On hashe le mot de passe saisi en utilisant l'injection de UserPasswordHasherInterface dans la méthode
+
             $user->setPassword($passwordHasher->hashPassword(
                 $user,
                 $form->get('password')->getData()
@@ -75,13 +76,19 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // On hashe le nouveau mot de passe avant de l'enregistrer en BDD
+            // dd($form->get('password')->getData());
+
             $user->setPassword(
                 $passwordHasher->hashPassword(
                     'user',
                     $form->get('password')->getData()
                 )
                 );
-            $this->getDoctrine()->getManager()->flush();
+            // $this->getDoctrine()->getManager()->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
 
             return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
         }

@@ -26,6 +26,24 @@
                         <a class="nav-link" href="{{ path('backoffice')}}">Backoffice</a>
                     </li>
                 </ul>
+
+                <ul>
+                <li>
+                    {% if app.user %}
+                        <p style="color: white" >{{ app.user.email }}</p>
+                    {% endif %}
+
+                    {# {% if app.user.roles.contains("ROLE_ADMIN") %}
+                        <p style="color: green">Administrateur</p>
+                    {% if if app.user.roles.contains("ROLE_MEMBER") %}
+                        <p style="color: red">Membre</p>
+                    {% else %}                 
+                        <p style="color: orange">Visiteur</p>
+                    {% endif %} #}
+                </li>
+
+                </ul>
+
                 <ul class="navbar-nav me-4 mb-md-0">
                     <li class="nav-item">
                     {% if app.user %}
