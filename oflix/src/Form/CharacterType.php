@@ -46,17 +46,31 @@ class CharacterType extends AbstractType
                     'placeholder' => 'Renseigner l\'âge',
                 ]
             ])
-            ->add('imageFile', FileType::class, [
-                'label' => 'Image',
-                'mapped' => false,
-                'required' => false,
-            ])
-            // ->add('createdAt')
-            // ->add('updatedAt')
-            // ->add('tvShows')
-        ;
-    }
+            ->add('imgUpload', FileType::class, [
+                'label' => 'Choisir une image',
 
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => false,
+
+                // unmapped fields can't define their validation using annotations
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpeg'
+                        ],
+                        'mimeTypesMessage' => 'Merci de ne choisir que des fichiers .png et .jpeg',
+                    ])
+                ],
+            ])
+            ;
+    }
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

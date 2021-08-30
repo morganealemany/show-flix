@@ -37,7 +37,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         # Il faut être connecté (ROLE_USER) pour afficher les pages /tvshow
-        - { path: ^/tvshow, roles: ROLE_USER }
+        # - { path: ^/tvshow, roles: ROLE_USER }
 
         # Il faut avoir le rôle ROLE_ADMIN pour afficher le backoffice
         - { path: ^/backoffice, roles: ROLE_ADMIN }

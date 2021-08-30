@@ -22,18 +22,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">Ma liste</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('backoffice')}}">Backoffice</a>
-                    </li>
                 </ul>
 
                 <ul class="navbar-nav me-4 mb-md-0">
                 <li>
-                    {% if app.user %}
-                        <p class="text-danger" >{{ app.user.email }} est connecté</p>
-                        {# <p style="color: green">connecté</p> #}
-                    {% endif %}
-
                     {# {% if app.user.roles.contains("ROLE_ADMIN") %}
                         <p style="color: green">Administrateur</p>
                     {% if if app.user.roles.contains("ROLE_MEMBER") %}
@@ -48,7 +40,27 @@
                 <ul class="navbar-nav me-4 mb-md-0">
                     <li class="nav-item">
                     {% if app.user %}
-                        <a class="btn btn-danger" aria-current="page" href="{{ path('app_logout')}}">Se déconnecter</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{app.user.email}}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" href="#">Profil</a>
+                                </li>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                <li>
+                                    <a class="dropdown-item" href="{{ path('backoffice') }}">Backoffice</a>
+                                </li>
+                                {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a class="dropdown-item" aria-current="page" href="{{ path('app_logout')}}">Se déconnecter</a>
+                                    
+                                </li>
+                            </ul>
+                        </li>
+
                     {% else %}
                         <a class="btn btn-danger" aria-current="page" href="{{ path('app_login')}}">Se connecter</a>
         
