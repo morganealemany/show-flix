@@ -36,5 +36,15 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        # Il faut être connecté (ROLE_USER) pour afficher les pages /tvshow
+        - { path: ^/tvshow, roles: ROLE_USER }
+
+        # Il faut avoir le rôle ROLE_ADMIN pour afficher le backoffice
+        - { path: ^/backoffice, roles: ROLE_ADMIN }
+    # Système d'héritage
+    role-hierarchy:
+        # Un ROLE_ADMIN peut faire, tout ce que fait un ROLE_USER
+        ROLE_ADMIN: ROLE_USER
+
+        # Un ROLE_SUPER_ADMIN peut faire, tout ce que fait un ROLE_ADMIN
+        ROLE_SUPER_ADMIN: ROLE_ADMIN

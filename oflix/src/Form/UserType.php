@@ -17,14 +17,19 @@ class UserType extends AbstractType
             ->add('email')
             ->add('roles', ChoiceType::class, [
                 'choices' => [
-                    'User' => 'ROLE_USER',
-                    'Admin' => 'ROLE_ADMIN'
+                    'USER' => 'ROLE_USER',
+                    'ADMIN' => 'ROLE_ADMIN',
+                    'SUPER_ADMIN' => 'ROLE_SUPER_ADMIN'
                 ],
-                'expanded' => false, // liste déroulante
+                'expanded' => true, // checkbox
                 'multiple' => true, // choix multiple
                 // https://www.developpez.net/forums/d1860599/php/bibliotheques-frameworks/symfony/formulaire-ne-s-affiche-error-array-to-string-conversion-sf4/
             ])
-            ->add('password', PasswordType::class)
+            // ->add('Password')
+            ->add('plainPassword', PasswordType::class, [
+                // On indique à symfony que la propriété PlainPassword n'est pas lié (mapped) à l'entité User.
+                'mapped' =>false,
+            ])
         ;
     }
 
