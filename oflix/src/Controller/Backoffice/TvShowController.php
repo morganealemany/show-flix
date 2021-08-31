@@ -10,9 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
- * @Route("/backoffice/tvshow")
+ * @Route("/backoffice/tvshow", requirements={"id": "\d+"})
  */
 class TvShowController extends AbstractController
 {
@@ -51,6 +52,8 @@ class TvShowController extends AbstractController
 
     /**
      * @Route("/{id}", name="backoffice_tv_show_show", methods={"GET"})
+     *@Route("/{slug}/details", name="backoffice_tv_show_show_slug")
+
      */
     public function show(TvShow $tvShow): Response
     {
@@ -62,12 +65,20 @@ class TvShowController extends AbstractController
     /**
      * @Route("/{id}/edit", name="backoffice_tv_show_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, TvShow $tvShow): Response
+    public function edit(Request $request, TvShow $tvShow, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(TvShowType::class, $tvShow);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // On récupère le title de la série
+            // pour le transformer en slug
+            $slug = $slugger->slug(strtolower($tvShow->getTitle()));
+            // dd($tvShow->getTitle(), $slug);
+
+            // On met à jour l'entité
+            $tvShow->setSlug($slug);
+
             $tvShow->setUpdatedAt(( new DateTimeImmutable()));
             $this->getDoctrine()->getManager()->flush();
 

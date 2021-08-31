@@ -16,7 +16,7 @@
                 <th>Genre</th>
                 <th>Age</th>
                 <th>Biographie</th>
-                <th>Date de création</th>
+                <th>Image</th>
                 <th>Dernière mise à jour</th>
                 <th>Actions</th>
             </tr>
@@ -30,7 +30,9 @@
                 <td>{{ character.gender }}</td>
                 <td>{{ character.age }}</td>
                 <td>{{ character.bio }}</td>
-                <td>{{ character.createdAt ? character.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+                    <td>
+                        <img src="{{ asset('uploads/' ~ character.image) }}" width= 100 alt="image du personnage {{ character.firstname }}">
+                    </td>
                 <td>{{ character.updatedAt ? character.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('backoffice_character_show', {'id': character.id}) }}">Voir</a>

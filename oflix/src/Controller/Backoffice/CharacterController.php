@@ -5,6 +5,7 @@ namespace App\Controller\Backoffice;
 use App\Entity\Character;
 use App\Repository\CharacterRepository;
 use App\Form\CharacterType;
+use App\Service\ImageUploader;
 use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -53,7 +54,7 @@ class CharacterController extends AbstractController
      *
      * @return void
      */
-    public function add(Request $request, SluggerInterface $slugger) 
+    public function add(Request $request, ImageUploader $imageUploader) 
     {
         // 1) On instancie un objet vide 
         $character = new Character();
@@ -67,29 +68,14 @@ class CharacterController extends AbstractController
         // 5) On vérifie qu'on est bien dans le cas de la soumission du formulaire
         if ($form->isSubmitted() && $form->isValid()) 
         {            
-            // On récupère le fichier physique (binaire)
-            /** @var UploadedFile $imgFile */
-            $imgFile = $form->get('imgUpload')->getData();
+            // On effectue l'upload du fichier râce au service ImageUploader
+            $newFilename = $imageUploader->upload($form, 'imgUpload');
 
-            // On vérifie que le fichier a bien été sélectionné dans le formulaire
-            if ($imgFile) {
-                //On récupère le nom du fichier
-                $originalFilename = pathinfo($imgFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // Pour des raisons de sécurité, on va nettoyer le nom du fichier grâce à la méthode slug du Service SluggerInterface
-                $safeFilename = $slugger->slug($originalFilename);
-                // Pour éviter que 2 utilisateurs upload 2 fichiers avec des noms identiques et pour ne pas écraser le fichier d'une autre personne, on va renommr nos fichiers en rajoutant un suffixe composé de caractères aléatoires ou unique.
-                //Loris-45789.jpg
-                $newFilename = $safeFilename.'-'. uniqid(). '.' .$imgFile->guessExtension();
-
-                //On déplace le fichier physique dans le dossier public/uploads
-                try {
-                    $imgFile->move('uploads', $newFilename);
-                    // On met à jour la propriété image 
-                    $character->setImage($newFilename);
-                } catch (FileException $e) {
-                    // Si ça se passe mal, on envoie un mail à l'admin par exemple
-                }
+            // on met à jour la propriété image 
+            if ($newFilename) {
+                $character->setImage($newFilename);
             }
+
             // On créé le nouveau personnage
             // en appelant le manager de doctrine
             $em = $this->getDoctrine()->getManager();
@@ -122,7 +108,7 @@ class CharacterController extends AbstractController
      * 
      * @return void
      */
-    public function edit(int $id, Request $request, CharacterRepository $repositoryCharacter)
+    public function edit(int $id, Request $request, CharacterRepository $repositoryCharacter, ImageUploader $imageUploader)
     {
         // 1) On récupére l'id de la catégorie à modifier
         $character = $repositoryCharacter->find($id);
@@ -135,6 +121,15 @@ class CharacterController extends AbstractController
 
         // 5) On vérifie qu'on est bien dans le cas d'une soumission de formulaire
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // On effectue l'upload du fichier râce au service ImageUploader
+            $imageFilename = $imageUploader->upload($form, 'imgUpload');
+
+            // on met à jour la propriété image 
+            if ($imageFilename) {
+                $character->setImage($imageFilename);
+            }
+            
             // On met à jour le personnage
             $character->setUpdatedAt(new DateTimeImmutable());
             // en appelant le manager de doctrine
