@@ -68,7 +68,7 @@ class CharacterController extends AbstractController
         // 5) On vérifie qu'on est bien dans le cas de la soumission du formulaire
         if ($form->isSubmitted() && $form->isValid()) 
         {            
-            // On effectue l'upload du fichier râce au service ImageUploader
+            // On effectue l'upload du fichier grâce au service ImageUploader
             $newFilename = $imageUploader->upload($form, 'imgUpload');
 
             // on met à jour la propriété image 

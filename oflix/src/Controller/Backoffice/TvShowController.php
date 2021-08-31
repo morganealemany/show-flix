@@ -5,6 +5,7 @@ namespace App\Controller\Backoffice;
 use App\Entity\TvShow;
 use App\Form\TvShowType;
 use App\Repository\TvShowRepository;
+use App\Service\ImageUploader;
 use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -65,12 +66,23 @@ class TvShowController extends AbstractController
     /**
      * @Route("/{id}/edit", name="backoffice_tv_show_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, TvShow $tvShow, SluggerInterface $slugger): Response
+    public function edit(Request $request, TvShow $tvShow, SluggerInterface $slugger, ImageUploader $imageUploader): Response
     {
         $form = $this->createForm(TvShowType::class, $tvShow);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // ------------ Upload image --------------
+            // On effectue l'upload de l'image grâce au service ImageUploader et à la méthode ImageUploader:upload
+            $newImageFileName = $imageUploader->upload($form, 'imageTvShow');
+
+            // Si une nouvelle image a été uploadée
+            if ($newImageFileName) {
+                // On met à jour la propriété image de l'entité TvShow
+                $tvShow->setImage($newImageFileName);
+            }
+
+            // ------------ Slug ---------------------
             // On récupère le title de la série
             // pour le transformer en slug
             $slug = $slugger->slug(strtolower($tvShow->getTitle()));

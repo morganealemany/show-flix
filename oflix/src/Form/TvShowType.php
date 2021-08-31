@@ -18,7 +18,7 @@ class TvShowType extends AbstractType
                 'label' => 'Titre'
             ])
             ->add('synopsis')
-            ->add('imgupload', FileType::class, [
+            ->add('imageTvShow', FileType::class, [
                 'label' => 'Choisir une image',
 
                 // unmapped means that this field is not associated to any entity property
