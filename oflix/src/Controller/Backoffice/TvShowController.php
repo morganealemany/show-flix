@@ -31,13 +31,24 @@ class TvShowController extends AbstractController
     /**
      * @Route("/new", name="backoffice_tv_show_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ImageUploader $imageUploader): Response
     {
         $tvShow = new TvShow();
         $form = $this->createForm(TvShowType::class, $tvShow);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // ------------ Upload image --------------
+            // On effectue l'upload de l'image grâce au service ImageUploader et à la méthode ImageUploader:upload
+            $newImageFileName = $imageUploader->upload($form, 'imageTvShow');
+
+            // Si une nouvelle image a été uploadée
+            if ($newImageFileName) {
+                // On met à jour la propriété image de l'entité TvShow
+                $tvShow->setImage($newImageFileName);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tvShow);
             $entityManager->flush();
