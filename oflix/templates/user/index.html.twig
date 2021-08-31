@@ -21,8 +21,13 @@
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>
-                    <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
+                    <a href="{{ path('user_show', {'id': user.id}) }}">Voir</a>
+                    {% if is_granted("USER_EDIT", app.user) %}
+                    <p>
+                    <a href=" {{path('user_edit', {id: user.id} )}} ">Modifier</a>
+                    </p>
+                    {% endif %}
+                    
                 </td>
             </tr>
         {% else %}

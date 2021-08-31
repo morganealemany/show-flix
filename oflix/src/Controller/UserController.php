@@ -71,6 +71,8 @@ class UserController extends AbstractController
      */
     public function edit(Request $request, User $user, UserPasswordHasherInterface $passwordHasher): Response
     {
+        // Cette méthode va permettre de décider si on peut accèder à la page d'édition d'un utilisateur. La logique autorisant ou non l'accès se fera dans le UserVoter.
+        $this->denyAccessUnlessGranted('USER_EDIT', $user, "Vous ne passerez pas");
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 

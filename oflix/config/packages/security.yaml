@@ -41,6 +41,8 @@ security:
 
         # Il faut avoir le rôle ROLE_ADMIN pour afficher le backoffice
         - { path: ^/backoffice, roles: ROLE_ADMIN }
+        # - { path: ^/user, roles: ROLE_ADMIN }
+
     # Système d'héritage
     role-hierarchy:
         # Un ROLE_ADMIN peut faire, tout ce que fait un ROLE_USER
