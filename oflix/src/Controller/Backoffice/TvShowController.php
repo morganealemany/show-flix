@@ -14,12 +14,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
- * @Route("/backoffice/tvshow", requirements={"id": "\d+"})
+ * @Route("/backoffice/tvshow",name="backoffice_tv_show_", requirements={"id": "\d+"})
  */
 class TvShowController extends AbstractController
 {
     /**
-     * @Route("/", name="backoffice_tv_show_index", methods={"GET"})
+     * @Route("/", name="index", methods={"GET"})
      */
     public function index(TvShowRepository $tvShowRepository): Response
     {
@@ -29,7 +29,7 @@ class TvShowController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="backoffice_tv_show_new", methods={"GET","POST"})
+     * @Route("/new", name="new", methods={"GET","POST"})
      */
     public function new(Request $request, ImageUploader $imageUploader): Response
     {
@@ -63,8 +63,8 @@ class TvShowController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="backoffice_tv_show_show", methods={"GET"})
-     *@Route("/{slug}/details", name="backoffice_tv_show_show_slug")
+     * @Route("/{id}", name="show", methods={"GET"})
+     *@Route("/{slug}/details", name="show_slug")
 
      */
     public function show(TvShow $tvShow): Response
@@ -75,7 +75,7 @@ class TvShowController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="backoffice_tv_show_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
     public function edit(Request $request, TvShow $tvShow, SluggerInterface $slugger, ImageUploader $imageUploader): Response
     {
@@ -118,7 +118,7 @@ class TvShowController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="backoffice_tv_show_delete", methods={"POST"})
+     * @Route("/{id}", name="delete", methods={"POST"})
      */
     public function delete(Request $request, TvShow $tvShow): Response
     {

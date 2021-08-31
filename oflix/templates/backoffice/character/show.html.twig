@@ -2,23 +2,23 @@
 
 {% block content %}
 
-<h1>{{ character.firstname }} {{ character.lastname}}</h1>
-
-    <h3>Age</h3>
-        <p>{{ character.age }}</p>
-    <h3>Genre</h3>
-        <p>{{ character.gender }}</p>
-    <h3>Biographie</h3>
-        <p>{{ character.bio }}</p>
-
-<p>
-    <a class="btn btn-success" href="{{ path('backoffice_character_edit', {id: character.id})}}">Editer</a>
-</p>
-<p>
-    <a class="btn btn-danger" href="{{ path('backoffice_character_delete', {id: character.id})}}" onclick="return confirm('Êtes vous sûr de vouloir supprimer cet élément?');">Supprimer</a>
-</p>
-<p>
-    <a class="btn btn-primary" href="{{ path('backoffice_character_index') }}">Retour à la liste</a>
- </p>
+<div class= "d-flex justify-content-center">
+    <div class="card text-center" style="width: 25rem;">
+    <img src="{{ asset('uploads/' ~ character.image)}}" class="card-img-top" alt="Image de la série {{ character.firstname }} {{ character.lastname }}">
+    <div class="card-body">
+        <h5 class="card-title">{{ character.firstname }} {{ character.lastname}}</h5>
+        <p class="card-text">{{ character.bio }}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Age : {{ character.age }}</li>
+        <li class="list-group-item">Genre : {{ character.gender }}</li>
+    </ul>
+    <div class="card-body">
+        <a class="btn btn-success card-link" href="{{ path('backoffice_character_edit', {id: character.id})}}">Editer</a>    
+        <a class="btn btn-danger card-link" href="{{ path('backoffice_character_delete', {id: character.id})}}" onclick="return confirm('Êtes vous sûr de vouloir supprimer cet élément?');">Supprimer</a>
+        <a class="btn btn-primary card-link" href="{{ path('backoffice_character_index') }}">Retour à la liste</a>
+    </div>
+    </div>
+</div>
 
 {% endblock %}
