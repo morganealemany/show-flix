@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\TvShow;
 use App\Repository\SeasonRepository;
 use App\Repository\TvShowRepository;
 use App\Service\OmdbApi;
@@ -68,6 +69,20 @@ class TvShowController extends AbstractController
 
         return $this->render('tv_show/show.html.twig', [
             'tvshow' => $tvshow,
+        ]);
+    }
+
+    /**
+     * Méthode permettant d'afficher les détails d'une série avec le slug dans l'url
+     * 
+     * @Route("/{slug}", name="show_slug")
+     *
+     * @return Response
+     */
+    public function showWithSlug(TvShow $tvshow): Response
+    {
+        return $this->render('tv_show/show.html.twig', [
+            'tvshow' => $tvshow
         ]);
     }
 }
