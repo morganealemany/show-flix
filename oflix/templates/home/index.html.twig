@@ -54,7 +54,7 @@
                     {% for tvshow in lastTvShows %}
                     <div class="col">
                         <div class="card shadow-sm">
-                            <img src="{{ asset('uploads/' ~ tvshow.image) }}" alt="{{ tvshow.title }}">
+                            <img src="{{tvshow.image}}" alt="{{ tvshow.title }}">
                             <div class="card-body">
                                 <p class="card-text">{{ tvshow.synopsis }}</p>
                                 <div class="d-flex justify-content-between align-items-center">

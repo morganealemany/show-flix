@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\SeasonRepository;
 use App\Repository\TvShowRepository;
+use App\Service\OmdbApi;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,12 +43,23 @@ class TvShowController extends AbstractController
      *
      * @return Response
      */
-    public function show(int $id, TvShowRepository $repositoryTvShow, SeasonRepository $repositorySeason): Response
+    public function show(int $id, TvShowRepository $repositoryTvShow, SeasonRepository $repositorySeason, OmdbApi $omdbApi): Response
     {
+        // On autorise l'accès aux détails d'une série uniquement
+        // aux personnes connectées
+        // $this->denyAccessUnlessGranted('ROLE_USER');
+
         // $this->denyAccessUnlessGranted('ROLE_USER');
 
         // Récupération des infos de la série dont l'id est passée en argument
         $tvshow = $repositoryTvShow->find($id);
+
+
+        //Test du service omdbapi
+
+        $tvshowDataArray = $omdbApi->fetch($tvshow->getTitle());
+
+        dump($tvshowDataArray);
 
         // Si la série n'existe pas on affiche une 404
         if (!$tvshow) {
