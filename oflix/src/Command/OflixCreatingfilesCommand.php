@@ -26,7 +26,7 @@ class OflixCreatingfilesCommand extends Command
             // php bin/console oflix:assets
 
             ->addArgument('folder', InputArgument::OPTIONAL, 'Le dossier que l\'on souhaite créer')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+            ->addOption('addtogit', null, InputOption::VALUE_NONE, 'Option description')
         ;
     }
 
@@ -39,13 +39,25 @@ class OflixCreatingfilesCommand extends Command
             // Un argument a été saisie dans la commande
             // php bin/console oflix:creatingfiles argument
             //si $folder = javascript on va créer le dossier public/javascript
-            mkdir('public/' . $folder);
+            $folderToCreate = 'public/' . $folder;
+            mkdir($folderToCreate);
+
+            // Si l'option addtogit est présent
+            // alors on créé un fichier .keep
+            $optionGit = $input->getOption('addtogit');
+            
+            if ($optionGit) {
+                // public/js/.keep
+                $keepFile = $folderToCreate . '/.keep';
+
+                // Function file_put_contents : https://www.php.net/manual/fr/function.file-put-contents.php
+                file_put_contents($keepFile, '<?php echo "Je suis ton père!";');
+            }
+
+            $io->success('Le dossier ' . $folder . ' a bien été créé');
         }
         // dd('stop');
 
-        if ($input->getOption('option1')) {
-            // ...
-        }
 
         // On veut créer 2 dossiers :
         // Fonction mkdir : https://www.php.net/manual/fr/function.mkdir.php
