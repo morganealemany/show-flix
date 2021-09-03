@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Category
 {
@@ -52,6 +53,20 @@ class Category
     public function __toString()
     {
         return $this->id . ' - ' . $this->name;
+    }
+
+    // On ajoute @ORM\PreUpdate afin que l'action se réalise juste avant la mise à jour d'une catégorie
+    /**
+     * @ORM\PreUpdate
+     *
+     * @return void
+     */
+    public function setUpdatedValue()
+    {
+        // Avant de mettre à jour une catégorie en BDD
+        // on va d'abord mettre à jour la propriété $updatedAt
+        // avec la date du jour
+        $this->setUpdatedAt(new DateTimeImmutable());
     }
 
     public function getId(): ?int
