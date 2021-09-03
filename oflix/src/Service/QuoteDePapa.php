@@ -16,6 +16,7 @@ class QuoteDePapa
             "Le gras c'est la vie",
             "OK",
             "C'est pas faux !",
+            "Vouala",
             "Des customs curry",
             "RTFM",
             "auto waouwaouwaing",
