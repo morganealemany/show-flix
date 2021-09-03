@@ -13,7 +13,6 @@ class RequestDemoSubscriber implements EventSubscriberInterface
         $request = $event->getRequest();
         $server = $request->server;
         $remoteIp = $server->get('REMOTE_ADDR');
-        dd($event, $request, $server, $remoteIp);
 
         // Si l'adresse ip de l'utilisateur qui a formulé la requête est dans une blacklist par exemple alors on peut lui interdire l'accès à nos pages en affichant un message d'erreur et en renvoyant un code 403
         if (in_array($remoteIp, ['189.10.20.6', '154.21.3.59'])) 
