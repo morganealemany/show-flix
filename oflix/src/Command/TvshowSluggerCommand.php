@@ -14,13 +14,16 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TvshowSluggerCommand extends Command
 {
+    // php bin/console tvshow:slugger
     protected static $defaultName = 'tvshow:slugger';
-    protected static $defaultDescription = 'Permet l\'ajout des slugs aux séries de l\'entité tvshow.';
+
+    // php bin/console tvshow:slugger --help
+    protected static $defaultDescription = 'Permet de mettre à jour les slugs des séries de l\'entité tvshow.';
 
     // On déclare les propriétés des services dont nous allons avoir besoin
     private $tvShowRepository;
-    private $manager;
     private $slugger;
+    private $manager;
 
     // On injecte également les services nécessaires dans le construct pour y avoir accès dans la class (Command)
     public function __construct(TvShowRepository $tvShowRepository, EntityManagerInterface $manager, SluggerInterface $slugger)
@@ -38,7 +41,9 @@ class TvshowSluggerCommand extends Command
     protected function configure(): void
     {
         $this
+            // php bin/console tvshow:slugger id
             ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
+            // php bin/console tvshow:slugger id --option
             ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
         ;
     }
@@ -58,6 +63,8 @@ class TvshowSluggerCommand extends Command
             $tvshow->setSlug($tvshowSlug);
             $io->text('Mise à jour de la série ' . $tvshow->getTitle() . ' en cours.');
         }
+        //Etape 3 : On sauvegarde les séries en BDD
+        $this->manager->flush();
         // $arg1 = $input->getArgument('arg1');
 
         // if ($arg1) {
@@ -69,7 +76,7 @@ class TvshowSluggerCommand extends Command
         // }
 
         $io->success('La mise à jour de toutes les séries est un succès');
-
+        // On fait savoir à Symfony que tout s'est bien passé.
         return Command::SUCCESS;
     }
 }

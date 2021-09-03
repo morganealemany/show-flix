@@ -41,10 +41,11 @@ class TvShowController extends AbstractController
      * Méthode affichant les détails d'une série en fonction de son id
      * 
      * @Route("/{id}", name="show", requirements={"id": "\d+"})
+     * @Route("/{slug}", name="slug")
      *
      * @return Response
      */
-    public function show(int $id, TvShowRepository $repositoryTvShow, SeasonRepository $repositorySeason, OmdbApi $omdbApi): Response
+    public function show(TvShow $tvshow, OmdbApi $omdbApi): Response
     {
         // On autorise l'accès aux détails d'une série uniquement
         // aux personnes connectées
@@ -53,7 +54,7 @@ class TvShowController extends AbstractController
         // $this->denyAccessUnlessGranted('ROLE_USER');
 
         // Récupération des infos de la série dont l'id est passée en argument
-        $tvshow = $repositoryTvShow->find($id);
+        // $tvshow = $repositoryTvShow->find($id);
 
 
         //Test du service omdbapi
@@ -64,7 +65,7 @@ class TvShowController extends AbstractController
 
         // Si la série n'existe pas on affiche une 404
         if (!$tvshow) {
-            throw $this->createNotFoundException()("La série $id n'existe pas");   
+            throw $this->createNotFoundException()("La série $tvshow->getId() n'existe pas");   
         }
 
         return $this->render('tv_show/show.html.twig', [
@@ -72,17 +73,17 @@ class TvShowController extends AbstractController
         ]);
     }
 
-    /**
-     * Méthode permettant d'afficher les détails d'une série avec le slug dans l'url
-     * 
-     * @Route("/{slug}", name="show_slug")
-     *
-     * @return Response
-     */
-    public function showWithSlug(TvShow $tvshow): Response
-    {
-        return $this->render('tv_show/show.html.twig', [
-            'tvshow' => $tvshow
-        ]);
-    }
+    // /**
+    //  * Méthode permettant d'afficher les détails d'une série avec le slug dans l'url
+    //  * 
+    //  * @Route("/{slug}", name="slug")
+    //  *
+    //  * @return Response
+    //  */
+    // public function showWithSlug(TvShow $tvshow): Response
+    // {
+    //     return $this->render('tv_show/show.html.twig', [
+    //         'tvshow' => $tvshow
+    //     ]);
+    // }
 }

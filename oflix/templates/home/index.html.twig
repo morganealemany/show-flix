@@ -59,7 +59,7 @@
                                 <p class="card-text">{{ tvshow.synopsis }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
-                                        <a href="{{path('tvshow_show', {id: tvshow.id })}}" class="btn btn-sm btn-outline-secondary">Voir</a>
+                                        <a href="{{path('tvshow_slug', {slug: tvshow.slug })}}" class="btn btn-sm btn-outline-secondary">Voir</a>
                                         <a href="{{path('backoffice_tv_show_edit', {id: tvshow.id })}}" class="btn btn-sm btn-outline-secondary">Editer</a>
                                     </div>
                                     <small class="text-muted">
