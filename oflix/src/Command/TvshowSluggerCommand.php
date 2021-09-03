@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Repository\TvShowRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -41,42 +42,75 @@ class TvshowSluggerCommand extends Command
     protected function configure(): void
     {
         $this
-            // php bin/console tvshow:slugger id
-            ->addArgument('arg1', InputArgument::OPTIONAL, 'Argument description')
-            // php bin/console tvshow:slugger id --option
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+            // php bin/console tvshow:slugger 2
+            ->addArgument('id', InputArgument::OPTIONAL, 'Identifant de la série à modifier')
+            // php bin/console tvshow:slugger id --updatedAt
+            ->addOption('updatedAt', null, InputOption::VALUE_NONE, 'Option de mise à jour de la propriété updatedAt')
         ;
     }
 
+    /**
+     * C'est dans cette méthode qu'on va coder toute la logique
+     * métier de notre commande
+     * 
+     * On va générer les slugs de toutes nos séries O'flix
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return integer
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $tvshowId = $input->getArgument('id');
+        $updatedAtOption = $input->getOption('updatedAt');
 
-        // Etape 1 : on récupère la liste des séries
-        $tvshowList = $this->tvShowRepository->findAll();
+        if ($tvshowId) {
+            $io->note(sprintf('You passed an argument: %s', $tvshowId));
+            $tvshow = $this->tvShowRepository->find($tvshowId);
+            if ($tvshow) {
 
-        // Etape 2 : pour chaque série on va créer le slug approprié et mettre les séries à jour
-        foreach ($tvshowList as $tvshow) {
-            // On crée le slug pour chaque série grâce à son titre (et on minifie les lettres grâce à strtolower)
-            $tvshowSlug = $this->slugger->slug(strtolower($tvshow->getTitle()));
-            // On met à jour la propriété slug de chaque série
-            $tvshow->setSlug($tvshowSlug);
-            $io->text('Mise à jour de la série ' . $tvshow->getTitle() . ' en cours.');
+                $this->createSlug($tvshow, $io, $updatedAtOption);
+            } else {
+                $io->error('La série dont l\'id est ' . $tvshowId . ' n\'est pas définie.');
+                return Command::INVALID;
+            }
+        }else {
+            // Etape 1 : on récupère la liste des séries
+            $tvshowList = $this->tvShowRepository->findAll();
+
+            // Etape 2 : pour chaque série on va créer le slug approprié et mettre les séries à jour
+            foreach ($tvshowList as $tvshow) {
+                $this->createSlug($tvshow, $io, $updatedAtOption);
+            }
         }
+
+        if ($input->getOption('updatedAt')) {
+            // ...
+        }
+
         //Etape 3 : On sauvegarde les séries en BDD
         $this->manager->flush();
-        // $arg1 = $input->getArgument('arg1');
-
-        // if ($arg1) {
-        //     $io->note(sprintf('You passed an argument: %s', $arg1));
-        // }
-
-        // if ($input->getOption('option1')) {
-        //     // ...
-        // }
 
         $io->success('La mise à jour de toutes les séries est un succès');
         // On fait savoir à Symfony que tout s'est bien passé.
         return Command::SUCCESS;
+    }
+
+    /**
+     * Factorisation du code permettant de gérer la mise à jour du slug
+     */
+    private function createSlug($tvshow, $io, $updatedAt)
+    {
+        // On crée le slug 
+        $tvshowSlug = $this->slugger->slug(strtolower($tvshow->getTitle()));
+        $io->text('Mise à jour de la série ' . $tvshow->getTitle() . ' en cours.');
+        // On met à jour la propriété slug de la série
+        $tvshow->setSlug($tvshowSlug);
+
+        if($updatedAt) {
+            // Si l'option updatedAt est définie dans la commande, alors on met à jour la propriété.
+            $tvshow->setUpdatedAt(new DateTimeImmutable());
+        }
     }
 }

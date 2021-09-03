@@ -65,7 +65,7 @@ class TvShowController extends AbstractController
 
         // Si la série n'existe pas on affiche une 404
         if (!$tvshow) {
-            throw $this->createNotFoundException()("La série $tvshow->getId() n'existe pas");   
+            throw $this->createNotFoundException()("La série $tvshow->getId n'existe pas");   
         }
 
         return $this->render('tv_show/show.html.twig', [
