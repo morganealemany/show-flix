@@ -13,9 +13,15 @@ class MaintenanceSubscriber implements EventSubscriberInterface
         // On récupère la réponse que le serveur s'apprête à retourner au client
         $request = $event->getRequest();
 
+        // Possibilité de changer la variable d'environnement (2 façons)
+        // $_ENV['MAINTENANCE_MSG'] = 'toto';
+        // $request->server->set('MAINTENANCE_MSG', 'toto');
+        // -----------------------------------------------------
         
+        // Utilisation de la variable d'environnement pour générer ou non le bandeau de maintenance.
         $onMaintenance = $request->server->get('IN_MAINTENANCE');
         $maintenanceMsg = $request->server->get('MAINTENANCE_MSG');
+
         if ($onMaintenance == 1) {
             // On récupère la réponse de l'event
             $response = $event->getResponse();
@@ -39,9 +45,6 @@ class MaintenanceSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-
-        // TODO Utilisation de la variable d'environnement pour générer ou non le bandeau de maintenance.
-
             return [
             // Lorsque l'événement kernel.response est déclenché, Symfony va appeller la méthode onKernelResponse
             'kernel.response' => 'onKernelResponse',
