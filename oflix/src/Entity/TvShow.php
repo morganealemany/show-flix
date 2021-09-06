@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
@@ -19,43 +20,59 @@ class TvShow
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * 
+     * @Groups({"tvshow_list", "tvshow_detail"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank(message="Le titre doit être renseigné")
+     * 
+     * @Groups({"tvshow_list", "tvshow_detail"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Le synopsis doit être renseigné")
+     * 
+     * @Groups({"tvshow_list", "tvshow_detail"})
      */
     private $synopsis;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     * @Groups({"tvshow_list", "tvshow_detail"})
      */
     private $image;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Groups({"tvshow_list", "tvshow_detail"})
      */
     private $nbLikes;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * 
+     * @Groups({"tvshow_list", "tvshow_detail"})
      */
     private $publishedAt;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * 
+     * @Groups({"tvshow_list", "tvshow_detail"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * 
+     * @Groups({"tvshow_list", "tvshow_detail"})
      */
     private $updatedAt;
 
@@ -71,6 +88,8 @@ class TvShow
 
     /**
      * @ORM\ManyToMany(targetEntity=Category::class, inversedBy="tvShows")
+     * 
+     * @Groups({"tvshow_list", "tvshow_detail"})
      */
     private $categories;
 
