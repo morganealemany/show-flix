@@ -84,4 +84,62 @@ class TvShowController extends AbstractController
         return $this->json($newTvShow, 201);
 
     }
+
+    /**
+     * Permet la mise à jour d'une série en fonction de son id
+     * 
+     * @Route("/{id}", name="edit", methods={"PUT"})
+     * @Route("/{id}", name="edit", methods={"PATCH"})
+     *
+     * @return void
+     */
+    public function edit(int $id, TvShowRepository $tvShowRepository, Request $request, SerializerInterface $serialiser)
+    {
+        // On récupère la série à modifier
+        $tvShow = $tvShowRepository->find($id);
+
+        // On récupère les nouvelles données renseignées
+        $jsonData = $request->getContent();
+
+        // Puis on transforme le json en objet
+        $editTvShow = $serialiser->deserialize($jsonData, TvShow::class, 'json');
+
+        // On remplit les propriétés(en conditionnant le fait qu'on les ai modifiées ou non)
+        if ($editTvShow->getTitle()) {
+            $tvShow->setTitle($editTvShow->getTitle());
+        }
+
+        if ($editTvShow->getSynopsis()) {
+            $tvShow->setSynopsis($editTvShow->getSynopsis());
+        }
+
+        // Enfin on sauvegarde les modifications en BDD
+        $em = $this->getDoctrine()->getManager();
+        
+        $em->flush();
+        // dd($editTvShow, $newTvShow);
+
+        // On retourne une réponse en indiquant que la série a bien été modifiée (code http 201)
+        return $this->json($tvShow, 201, [], [
+            'groups' => 'tv_show_detail'
+        ]);
+    }
+
+
+    /**
+     * Permet de supprimer une série en fonction de son id
+     * 
+     * @Route("/{id}", name="delete", methods= {"DELETE"})
+     *
+     * @return void
+     */
+    public function delete(int $id, TvShowRepository $tvShowRepository)
+    {
+        $tvShow = $tvShowRepository->find($id);
+        $tvShow = [];
+        // dd($tvShow);
+
+        // On retourne une réponse au format json pour dire que la série a bien été supprimée
+        return $this->json($tvShow, 200);
+    }
 }
