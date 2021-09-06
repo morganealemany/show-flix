@@ -136,7 +136,9 @@ class TvShowController extends AbstractController
     public function delete(int $id, TvShowRepository $tvShowRepository)
     {
         $tvShow = $tvShowRepository->find($id);
-        $tvShow = [];
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($tvShow);
+        $em->flush();
         // dd($tvShow);
 
         // On retourne une réponse au format json pour dire que la série a bien été supprimée
