@@ -82,14 +82,12 @@ class TvShowController extends AbstractController
         // On retourne une réponse en indiquant que la ressource
         // a bien été créée (code http 201)
         return $this->json($newTvShow, 201);
-
     }
 
     /**
      * Permet la mise à jour d'une série en fonction de son id
      * 
-     * @Route("/{id}", name="edit", methods={"PUT"})
-     * @Route("/{id}", name="edit", methods={"PATCH"})
+     * @Route("/{id}", name="edit", methods={"PUT", "PATCH"})
      *
      * @return void
      */
@@ -125,7 +123,6 @@ class TvShowController extends AbstractController
         ]);
     }
 
-
     /**
      * Permet de supprimer une série en fonction de son id
      * 
@@ -142,6 +139,6 @@ class TvShowController extends AbstractController
         // dd($tvShow);
 
         // On retourne une réponse au format json pour dire que la série a bien été supprimée
-        return $this->json($tvShow, 200);
+        return $this->json($tvShow, 204);
     }
 }
