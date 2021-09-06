@@ -75,7 +75,10 @@ class CategoryController extends AbstractController
         $em->flush();
 
         // On retourne une réponse au format json
-        return $this->json($newCategory, 201);
+        return $this->json([
+            'message' => 'La catégorie ' . $newCategory->getName() . ' a bien été créée',
+            'category' => $newCategory
+        ], 201);
     }
 
     /**

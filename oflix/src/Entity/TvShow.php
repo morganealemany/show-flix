@@ -21,7 +21,7 @@ class TvShow
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      * 
-     * @Groups({"tvshow_list", "tvshow_detail", "category_list", "category_detail"})
+     * @Groups({"tvshow_list", "tvshow_detail", "category_list", "category_detail", "character_list", "character_detail"})
      */
     private $id;
 
@@ -29,7 +29,7 @@ class TvShow
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank(message="Le titre doit être renseigné")
      * 
-     * @Groups({"tvshow_list", "tvshow_detail", "category_list", "category_detail"})
+     * @Groups({"tvshow_list", "tvshow_detail", "category_list", "category_detail", "character_list", "character_detail"})
      */
     private $title;
 
