@@ -31,7 +31,7 @@ class TvShowController extends AbstractController
         // On retourne la liste au format JSON
         return $this->json($tvShows, 200, [], [
             // Cette entrée va permettre au serializer de transformer les objets en JSON, en allant chercher uniquement les propriétés taggées avec les nom 'tvshows'
-            'groups' => 'tvshows'
+            'groups' => 'tvshow_list'
         ]);
     }
 
