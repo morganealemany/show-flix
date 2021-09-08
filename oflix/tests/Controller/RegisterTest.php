@@ -12,7 +12,7 @@ class RegisterTest extends WebTestCase
      *
      * @return void
      */
-    public function testRegisterPage(): void
+    public function testRegisterPagePublic(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/register');

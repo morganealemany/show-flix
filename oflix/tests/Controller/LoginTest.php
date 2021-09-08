@@ -12,7 +12,7 @@ class LoginTest extends WebTestCase
      *
      * @return void
      */
-    public function testLoginPage(): void
+    public function testLoginPagePublic(): void
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
