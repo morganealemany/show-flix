@@ -3,8 +3,10 @@
 namespace App\Controller\Backoffice;
 
 use App\Entity\Season;
+use App\Entity\TvShow;
 use App\Form\SeasonType;
 use App\Repository\SeasonRepository;
+use App\Repository\TvShowRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,79 +18,58 @@ use Symfony\Component\Routing\Annotation\Route;
 class SeasonController extends AbstractController
 {
     /**
-     * @Route("/", name="index", methods={"GET"})
+     * Affiche les saisons associées à une série dont l'id est $id
+     * 
+     * @Route("/{id}", name="index")
      */
-    public function index(SeasonRepository $seasonRepository): Response
+    public function index(TvShow $tvShow): Response
     {
         return $this->render('backoffice/season/index.html.twig', [
-            'seasons' => $seasonRepository->findAll(),
+            'tvShow' => $tvShow
         ]);
     }
 
-    /**
-     * @Route("/add", name="add", methods={"GET","POST"})
+        /**
+     * 
+     * URL : /backoffice/season/{id}/add
+     * 
+     * Permet l'ajout d'une saison à la série dont l'id est $id
+     * 
+     * @Route("/{id}/add", name="add")
+     *
+     * @return void
      */
-    public function add(Request $request): Response
+    public function add(int $id, TvShowRepository $tvShowRepository, Request $request)
     {
+        $tvShow = $tvShowRepository->find($id);
         $season = new Season();
         $form = $this->createForm(SeasonType::class, $season);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($season);
-            $entityManager->flush();
+            // TODO gérer les doublons dans les saisons
+            // TODO tester l'ordre des numéros de saisons
 
-            return $this->redirectToRoute('backoffice_season_index', [], Response::HTTP_SEE_OTHER);
+            // On associe la saison créée à la séire $tvShow
+            $tvShow->addSeason($season);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($season);
+            $em->flush();
+
+            $this->addFlash('success', 'Saison numéro ' .$season->getSeasonNumber() . ' a bien été associée à la série ' . $tvShow->getTitle());
+
+            // On redirige vers la page listant toutes les saisons d'une série
+            return $this->redirectToRoute('backoffice_season_index', [
+                'id' => $tvShow->getId()
+            ]);
         }
 
-        return $this->renderForm('backoffice/season/new.html.twig', [
-            'season' => $season,
-            'form' => $form,
+        return $this->render('backoffice/season/new.html.twig', [
+            'form' => $form->createView(),
+            'tvShow' => $tvShow
         ]);
-    }
 
-    /**
-     * @Route("/{id}", name="show", methods={"GET"})
-     */
-    public function show(Season $season): Response
-    {
-        return $this->render('backoffice/season/show.html.twig', [
-            'season' => $season,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Season $season): Response
-    {
-        $form = $this->createForm(SeasonType::class, $season);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('backoffice_season_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('backoffice/season/edit.html.twig', [
-            'season' => $season,
-            'form' => $form,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="delete", methods={"POST"})
-     */
-    public function delete(Request $request, Season $season): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$season->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($season);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('backoffice_season_index', [], Response::HTTP_SEE_OTHER);
     }
 }

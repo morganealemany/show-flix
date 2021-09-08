@@ -3,6 +3,7 @@
 namespace App\Controller\Backoffice;
 
 use App\Entity\Episode;
+use App\Entity\Season;
 use App\Form\EpisodeType;
 use App\Repository\EpisodeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,24 +27,28 @@ class EpisodeController extends AbstractController
     }
 
     /**
-     * @Route("/add", name="add", methods={"GET","POST"})
+     * @Route("/{id}/add", name="add")
      */
-    public function add(Request $request): Response
+    public function add(Season $season, Request $request): Response
     {
         $episode = new Episode();
         $form = $this->createForm(EpisodeType::class, $episode);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $season->addEpisode($episode);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($episode);
             $entityManager->flush();
 
-            return $this->redirectToRoute('backoffice_episode_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'L\'episode ' . $episode->getTitle() . ' a bien été créé');
+
+            return $this->redirectToRoute('backoffice_season_index', ['id' => $season->getTvShow()->getId()]);
         }
 
         return $this->renderForm('backoffice/episode/new.html.twig', [
             'episode' => $episode,
+            'season' => $season,
             'form' => $form,
         ]);
     }

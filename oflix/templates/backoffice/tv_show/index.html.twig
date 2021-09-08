@@ -27,7 +27,13 @@
                 <td>{{ tv_show.id }}</td>
                 <td>{{ tv_show.title }}</td>
                 <td>{{ tv_show.synopsis }}</td>
-                <td>{{ tv_show.image }}</td>
+                <td>
+                    {% if "http" in tv_show.image %}
+                        <img src="{{ tv_show.image }}" width="100">
+                    {% else %}
+                        <img src="{{ asset('uploads/' ~ tv_show.image) }}" width="100">
+                    {% endif %}
+                </td>
                 <td>{{ tv_show.nbLikes }}</td>
                 <td>{{ tv_show.publishedAt ? tv_show.publishedAt|date('d-m-Y H:i:s') : '' }}</td>
                     <td>

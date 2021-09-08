@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EpisodeRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,6 +49,11 @@ class Episode
      */
     private $season;
 
+
+    public function __construct() 
+    {
+        $this->createdAt = new DateTimeImmutable();
+    }
     public function getId(): ?int
     {
         return $this->id;

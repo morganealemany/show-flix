@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Episode;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,7 +19,10 @@ class EpisodeType extends AbstractType
             ->add('title', null, [
                 'label' => 'Titre'
             ])
-            // ->add('publishedAt')
+            ->add('publishedAt', DateTimeType::class, [
+                'widget' => 'single_text',
+                'input' => 'datetime_immutable',
+            ])
             // ->add('createdAt')
             // ->add('updatedAt')
             ->add('season', null, [

@@ -61,7 +61,7 @@ class TvShowController extends AbstractController
 
         $tvshowDataArray = $omdbApi->fetch($tvshow->getTitle());
 
-        dump($tvshowDataArray);
+        // dump($tvshowDataArray);
 
         // Si la série n'existe pas on affiche une 404
         if (!$tvshow) {
