@@ -105,7 +105,11 @@ class TvShow
         $this->categories = new ArrayCollection();
         $this->updateddAt = new DateTimeImmutable();
         $this->createdAt = new DateTimeImmutable();
+    }
 
+    public function __toString()
+    {
+        return $this->title;
     }
 
     public function getId(): ?int

@@ -10,23 +10,26 @@
     
         <div class="btn-group-vertical" role="group" aria-label="Button group with nested dropdown">
             <a href="{{ path('backoffice')}}" class="btn btn-primary">Accueil</a>
-            <a href="{{ path('backoffice_tv_show_index')}}" class="btn btn-primary">Séries</a>
             <a href="{{ path('backoffice_category_index')}}" class="btn btn-primary">Catégories</a>
             <a href="{{ path('backoffice_character_index')}}" class="btn btn-primary">Personnages</a>
 
-            {# <div class="btn-group" role="group">
+            <div class="btn-group" role="group">
                 <a id="btnGroupDrop1" href="" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    Dropdown
+                    Séries
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                     <li>
-                        <a class="dropdown-item" href="#">Dropdown link</a>
+                        <a class="dropdown-item" href="{{ path('backoffice_tv_show_index')}}">Séries</a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">Dropdown link</a>
+                        <a class="dropdown-item" href="{{ path('backoffice_season_index')}}">Saisons</a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ path('backoffice_episode_index')}}">Episodes</a>
+                    </li>
+
                 </ul>
-            </div> #}
+            </div>
         </div>
     </div>
 

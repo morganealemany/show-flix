@@ -1,0 +1,11 @@
+{% extends 'backoffice/layout.html.twig' %}
+
+{% block title %}Ajouter un épisode{% endblock %}
+
+{% block content %}
+    <h1>Ajouter un épisode</h1>
+
+    {{ include('backoffice/episode/_form.html.twig') }}
+
+    <a class="btn btn-primary" href="{{ path('backoffice_episode_index') }}">Retour à la liste</a>
+{% endblock %}

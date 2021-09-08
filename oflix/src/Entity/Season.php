@@ -58,6 +58,11 @@ class Season
         $this->createdAt = new DateTimeImmutable();
     }
 
+    public function __toString()
+    {
+        return strval($this->seasonNumber);
+    }
+
     public function getId(): ?int
     {
         return $this->id;

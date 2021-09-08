@@ -1,0 +1,42 @@
+{% extends 'backoffice/layout.html.twig' %}
+
+{% block title %}Index saisons - {{ parent() }}{% endblock %}
+
+{% block content %}
+    <h1>Liste des saisons</h1>
+
+    <p><a class="btn btn-primary" href="{{ path('backoffice_season_add')}}">Ajouter une saison</a></p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>SeasonNumber</th>
+                <th>PublishedAt</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for season in seasons %}
+            <tr>
+                <td>{{ season.id }}</td>
+                <td>{{ season.seasonNumber }}</td>
+                <td>{{ season.publishedAt ? season.publishedAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ season.createdAt ? season.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ season.updatedAt ? season.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('backoffice_season_show', {'id': season.id}) }}">show</a>
+                    <a href="{{ path('backoffice_season_edit', {'id': season.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

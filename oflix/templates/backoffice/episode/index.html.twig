@@ -1,0 +1,43 @@
+{% extends 'backoffice/layout.html.twig' %}
+
+{% block title %}Liste des épisodes{% endblock %}
+
+{% block content %}
+    <h1>Liste des épisodes</h1>
+
+    <a class="btn btn-primary" href="{{ path('backoffice_episode_add') }}">Ajouter un épisode</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Numéro de l'épisode</th>
+                <th>Titre</th>
+                <th>Date de publication</th>
+                <th>Date de création</th>
+                <th>Dernière mise à jour</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for episode in episodes %}
+            <tr>
+                <td>{{ episode.id }}</td>
+                <td>{{ episode.episodeNumber }}</td>
+                <td>{{ episode.title }}</td>
+                <td>{{ episode.publishedAt ? episode.publishedAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ episode.createdAt ? episode.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ episode.updatedAt ? episode.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('backoffice_episode_show', {'id': episode.id}) }}">show</a>
+                    <a href="{{ path('backoffice_episode_edit', {'id': episode.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
