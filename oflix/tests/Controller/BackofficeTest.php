@@ -16,7 +16,9 @@ class BackofficeTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', '/backoffice/tvshow');
 
-        $this->assertResponseStatusCodeSame(302);
+        // La page /tvshow n'étant accessible qu'aux personnes
+        // connectées, on est censé être redirigé vers la page de login
+        $this->assertResponseRedirects();
     }
 
     /**
@@ -28,13 +30,13 @@ class BackofficeTest extends WebTestCase
     {
         // On créé le client
         $client = static::createClient();
+
+        // Avanht de tester l'accès à la page on v d'abord se connecter en tant que tata@oclock.io
+
         $userRepository = static::getContainer()->get(UserRepository::class);
         
         // On récupère les infos du user testeur
-        $testUser = $userRepository->findOneByEmail('toto@oclock.io');
-        // dump($testUser->getRoles());
-        // On récupère les roles du user
-        $rolesUser = $testUser->getRoles();
+        $testUser = $userRepository->findOneByEmail('morgane@oclock.io');
 
         // On simule l'authentification
         $client->loginUser($testUser);
@@ -42,10 +44,10 @@ class BackofficeTest extends WebTestCase
         // On teste l'accès à la page si le user a uniquement le role ROLE_USER
         $client->request('GET', '/backoffice/tvshow');
 
-        // Si l'utilisateur connecté n'a qu'un seul role : le role par défaut qui est ROLE_USER
-        if (count($rolesUser) == 1) {
-            $this->assertResponseStatusCodeSame(403);
-        }
+        // Autre méthode :
+        // $this->assertEquals(403, $client->getResponse()->getStatusCode());
+
+        $this->assertResponseStatusCodeSame(403);
     }
 
     /**
@@ -55,27 +57,22 @@ class BackofficeTest extends WebTestCase
      */
     public function testBackofficePageAdminConnected()
     {
+
         // On créé le client
         $client = static::createClient();
+        
         $userRepository = static::getContainer()->get(UserRepository::class);
         
         // On récupère les infos de l'admin testeur
-        $testUser = $userRepository->findOneByEmail('toto@oclock.io');
-        // dump($testUser->getRoles());
-        // On récupère les roles du user
-        $rolesUser = $testUser->getRoles();
-
+        $testUser = $userRepository->findOneByEmail('tata@oclock.io');
+        
         // On simule l'authentification
         $client->loginUser($testUser);
         
         // On teste l'accès à la page si le user a uniquement le role ROLE_USER
-        $client->request('GET', '/backoffice/tvshow');
+        $client->request('GET', '/backoffice/tvshow/');
         // dump(in_array("ROLE_ADMIN", $rolesUser));
         // Si l'utilisateur connecté possède le role ROLE_ADMIN
-        if (in_array("ROLE_ADMIN", $rolesUser)) {
-            $this->assertEquals(200, $client->getResponse()->getStatusCode());       
-        }
-
-        $this->assertResponseStatusCodeSame(403);
+        $this->assertResponseIsSuccessful();
     }
 }

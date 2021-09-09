@@ -36,9 +36,6 @@
                 </td>
                 <td>{{ tv_show.nbLikes }}</td>
                 <td>{{ tv_show.publishedAt ? tv_show.publishedAt|date('d-m-Y H:i:s') : '' }}</td>
-                    <td>
-                        <img src="{{ asset('uploads/' ~ tv_show.image)}}" width=100 alt="image de la série {{ tv_show.title }}">
-                    </td>
                 <td>{{ tv_show.updatedAt ? tv_show.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('backoffice_tv_show_show', {'id': tv_show.id}) }}">Voir</a>
