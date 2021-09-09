@@ -19,5 +19,7 @@ class RegisterTest extends WebTestCase
 
         $this->assertResponseIsSuccessful();
         // $this->assertSelectorTextContains('h1', 'Hello World');
+        $this->assertSelectorTextContains('h1', 'Création de compte');
+
     }
 }
