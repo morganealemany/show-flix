@@ -1,0 +1,12 @@
+{% extends 'backoffice/layout.html.twig' %}
+
+{% block title %}Nouvelle série{% endblock %}
+
+{% block content %}
+
+    <h1>Ajouter une série</h1>
+
+    <p>{{ include('backoffice/tv_show/_form.html.twig') }}</p>
+
+    <p><a class="btn btn-primary" href="{{ path('backoffice_tv_show_index') }}">Revenir à la liste</a></p>
+{% endblock %}

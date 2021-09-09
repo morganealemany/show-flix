@@ -1,0 +1,51 @@
+{% extends 'backoffice/layout.html.twig' %}
+
+{% block title %}Index personnages - {{ parent() }}{% endblock %}
+
+{% block content %}
+
+<h1>Liste des personnages</h1>
+
+    <a class="btn btn-primary" href="{{ path('backoffice_character_add') }}">Ajouter un personnage</a>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Genre</th>
+                <th>Age</th>
+                <th>Biographie</th>
+                <th>Image</th>
+                <th>Dernière mise à jour</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for character in characters %}
+            <tr>
+                <td>{{ character.id }}</td>
+                <td>{{ character.firstname }}</td>
+                <td>{{ character.lastname }}</td>
+                <td>{{ character.gender }}</td>
+                <td>{{ character.age }}</td>
+                <td>{{ character.bio }}</td>
+                    <td>
+                        <img src="{{ asset('uploads/' ~ character.image) }}" width= 100 alt="image du personnage {{ character.firstname }}">
+                    </td>
+                <td>{{ character.updatedAt ? character.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('backoffice_character_show', {'id': character.id}) }}">Voir</a>
+                    <a href="{{ path('backoffice_character_edit', {'id': character.id}) }}">Editer</a>
+                    <a href="{{ path('backoffice_character_delete', {'id': character.id}) }}" onclick="return confirm('Êtes vous sûr de vouloir supprimer cet élément?');">Supprimer</a>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

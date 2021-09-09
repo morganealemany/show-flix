@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Backoffice - {{ parent() }}{% endblock %}
+{% block body %}
+{% if app.user %}
+{% set currentRoute = app.request.get('_route') %}
+<h2>Bonjour {{ app.user.email }}</h2>
+
+{% endif %}
+
+
+<main style="margin:100px">
+    <div class="row">
+    <div class="col-sm-4">
+        <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Séries</h2>
+            <p class="card-text">Interface d'administration des séries</p>
+            <a href="{{ path('backoffice_tv_show_index') }}" class="btn btn-primary">Gérer</a>
+        </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Personnages</h2>
+            <p class="card-text">Interface d'administration des personnages</p>
+            <a href="{{ path('backoffice_character_index') }}" class="btn btn-primary">Gérer</a>
+        </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Catégories</h2>
+            <p class="card-text">Interface d'administration des catégories</p>
+            <a href="{{ path('backoffice_category_index') }}" class="btn btn-primary">Gérer</a>
+        </div>
+        </div>
+    </div>
+    </div>
+</main>
+{% endblock %}

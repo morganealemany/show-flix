@@ -1,0 +1,41 @@
+{% extends 'backoffice/layout.html.twig' %}
+
+{% block title %}Index catégories - {{ parent() }}{% endblock %}
+
+{% block content %}
+
+<h1>Liste des catégories</h1>
+
+    <p><a class="btn btn-primary" href="{{ path('backoffice_category_add')}}">Ajouter une catégorie</a></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Date de création</th>
+                <th>Dernière mise à jour</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                <td>{{ category.id }}</td>
+                <td>{{ category.name }}</td>
+                <td>{{ category.createdAt ? category.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>{{ category.updatedAt ? category.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('backoffice_category_show', {'id': category.id}) }}">Voir</a>
+                    <a href="{{ path('backoffice_category_edit', {'id': category.id}) }}">Editer</a>
+                    <a href="{{ path('backoffice_category_delete', {'id': category.id}) }}" onclick="return confirm('Êtes vous sûr de vouloir supprimer cet élément?');">Supprimer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

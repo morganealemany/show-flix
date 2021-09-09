@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SearchController!{% endblock %}
+
+{% block body %}
+    <h2>Résultats de la recherche</h2>
+    {% for tvshow in results %}
+        <li>{{ tvshow.title }}</li>
+    {% endfor %}
+{% endblock %}
