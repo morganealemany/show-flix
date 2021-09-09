@@ -59,7 +59,7 @@ class TvShowController extends AbstractController
 
         //Test du service omdbapi
 
-        $tvshowDataArray = $omdbApi->fetch($tvshow->getTitle());
+        // $tvshowDataArray = $omdbApi->fetch($tvshow->getTitle());
 
         // dump($tvshowDataArray);
 
