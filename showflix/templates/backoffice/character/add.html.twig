@@ -1,0 +1,19 @@
+{% extends 'backoffice/layout.html.twig' %}
+
+{% block content %}
+
+    <h1>Ajouter un personnage</h1>
+    {{ form_start(formView, {'attr': {'novalidate': 'novalidate'}}) }}
+        {{ form_row(formView.firstname) }}
+        {{ form_row(formView.lastname) }}
+        {{ form_row(formView.age) }}
+        {{ form_row(formView.gender) }}
+        {{ form_row(formView.bio) }}
+        {{ form_row(formView.imgUpload) }}
+
+        <p><button class="btn btn-success">Valider</button></p>
+    {{ form_end(formView) }}
+
+    <p><a class="btn btn-primary" href="{{ path('backoffice_character_index') }}">Revenir à la liste</a></p>
+
+{% endblock %}

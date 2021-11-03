@@ -1,0 +1,22 @@
+{% extends "backoffice/layout.html.twig" %}
+
+{% block title %}
+    Nouvel épisode |
+    {{parent()}}
+{% endblock %}
+
+{% block content %}
+    <h2>
+        Nouvel épisode -
+        {{ season.tvShow.title }}
+        - Saison
+        {{ season.seasonNumber }}
+    </h2>
+    {{form_start(form)}}
+    {{form_row(form.episodeNumber)}}
+    {{form_row(form.title)}}
+    {{form_row(form.publishedAt)}}
+    <button class="btn btn-primary">Valider</button>
+    {{form_end(form)}}
+
+{% endblock %}
